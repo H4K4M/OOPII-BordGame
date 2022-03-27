@@ -44,7 +44,8 @@ namespace BoardGame
 
         private void exitButton_Click(object sender, EventArgs e)
         {
-            this.Close();
+            System.Windows.Forms.Application.Exit();
+            //this.Close();
         }
 
         private void LoginPage_KeyDown(object sender, KeyEventArgs e)
