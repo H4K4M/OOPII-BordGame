@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace BoardGame.src
 {
-    class UserDatabase
+    public class UserDatabase
     {
         private Dictionary<String, String> InMemoryUserDatabase = new Dictionary<String, String>
         {
@@ -18,11 +18,14 @@ namespace BoardGame.src
 
         public bool IsUserExistsWithUsernameAndPassword(String username, String password)
         {
-            String userPassword = InMemoryUserDatabase[username];
-
-            if (userPassword.Equals(password))
+            if (InMemoryUserDatabase.ContainsKey(username))
             {
-                return true;
+                String userPassword = InMemoryUserDatabase[username];
+
+                if (userPassword.Equals(password))
+                {
+                    return true;
+                }
             }
 
             throw new ArgumentException("Username and password did not matched.");
