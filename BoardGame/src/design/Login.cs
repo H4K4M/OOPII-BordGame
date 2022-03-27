@@ -46,5 +46,13 @@ namespace BoardGame
         {
             this.Close();
         }
+
+        private void LoginPage_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.KeyData == Keys.Enter)
+            {
+                loginButton.PerformClick();
+            }
+        }
     }
 }
