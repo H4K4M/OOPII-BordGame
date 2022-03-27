@@ -105,6 +105,7 @@ namespace BoardGame
             // 
             // LoginPage
             // 
+            this.AcceptButton = loginButton;
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(350, 175);
@@ -122,13 +123,14 @@ namespace BoardGame
             this.Name = "LoginPage";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Login Page";
+            this.KeyDown += new System.Windows.Forms.KeyEventHandler(this.LoginPage_KeyDown);
             this.ResumeLayout(false);
             this.PerformLayout();
 
         }
 
         #endregion
-
+        
         private System.Windows.Forms.Label usernameLabel;
         private System.Windows.Forms.Label passwordLabel;
         private System.Windows.Forms.TextBox usernameTextBox;
