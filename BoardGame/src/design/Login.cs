@@ -33,7 +33,6 @@ namespace BoardGame
 
                 MainMenuPage mainMenuPage = new MainMenuPage();
                 mainMenuPage.Show();
-                this.Hide();
             }
             catch (ArgumentException Exception)
             {
