@@ -65,6 +65,9 @@ namespace BoardGame.src.design
             checkBox1.Checked = false;
             checkBox2.Checked = false;
             checkBox2.Checked = false;
+            RedColour.Checked = false;
+            GreenColour.Checked = false;
+            BlueColour.Checked = false;
             settingpage.Hide();
         }
 
@@ -79,6 +82,9 @@ namespace BoardGame.src.design
             Settings1.Default.round = checkBox3.Checked;
             Settings1.Default.texbox1 = textBox1.Text;
             Settings1.Default.textbox2 = textBox2.Text;
+            Settings1.Default.red = RedColour.Checked;
+            Settings1.Default.blue = BlueColour.Checked;
+            Settings1.Default.green = GreenColour.Checked;
             Settings1.Default.Save();
             settingpage.Hide();
         }
@@ -94,12 +100,25 @@ namespace BoardGame.src.design
             checkBox3.Checked = Settings1.Default.round;
             textBox1.Text = Settings1.Default.texbox1;
             textBox2.Text = Settings1.Default.textbox2;
+            RedColour.Checked = Settings1.Default.red;
+            BlueColour.Checked = Settings1.Default.blue;
+            GreenColour.Checked = Settings1.Default.green;
         }
 
         private void quitbutton_Click(object sender, EventArgs e)
         {
             System.Windows.Forms.Application.Exit();
             //this.Close();
+        }
+
+        private void groupBox1_Enter(object sender, EventArgs e)
+        {
+
+        }
+
+        private void checkBox6_CheckedChanged(object sender, EventArgs e)
+        {
+
         }
     }
 }
