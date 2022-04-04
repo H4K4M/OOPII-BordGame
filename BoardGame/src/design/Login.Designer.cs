@@ -36,6 +36,7 @@ namespace BoardGame
             this.loginButton = new System.Windows.Forms.Button();
             this.exitButton = new System.Windows.Forms.Button();
             this.usernamePasswordWarningLabel = new System.Windows.Forms.Label();
+            this.ShowPass = new System.Windows.Forms.CheckBox();
             this.SuspendLayout();
             // 
             // usernameLabel
@@ -62,6 +63,7 @@ namespace BoardGame
             this.usernameTextBox.Name = "usernameTextBox";
             this.usernameTextBox.Size = new System.Drawing.Size(100, 23);
             this.usernameTextBox.TabIndex = 2;
+            this.usernameTextBox.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.usernameTextBox_KeyPress);
             // 
             // passwordTextBox
             // 
@@ -70,6 +72,7 @@ namespace BoardGame
             this.passwordTextBox.PasswordChar = '*';
             this.passwordTextBox.Size = new System.Drawing.Size(100, 23);
             this.passwordTextBox.TabIndex = 3;
+            this.passwordTextBox.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.passwordTextBox_KeyPress);
             // 
             // loginButton
             // 
@@ -103,12 +106,24 @@ namespace BoardGame
             this.usernamePasswordWarningLabel.Text = "Warning";
             this.usernamePasswordWarningLabel.Visible = false;
             // 
+            // ShowPass
+            // 
+            this.ShowPass.AutoSize = true;
+            this.ShowPass.Location = new System.Drawing.Point(186, 96);
+            this.ShowPass.Name = "ShowPass";
+            this.ShowPass.Size = new System.Drawing.Size(105, 19);
+            this.ShowPass.TabIndex = 7;
+            this.ShowPass.Text = "ShowPassword";
+            this.ShowPass.UseVisualStyleBackColor = true;
+            this.ShowPass.CheckedChanged += new System.EventHandler(this.ShowPass_CheckedChanged);
+            // 
             // LoginPage
             // 
-            this.AcceptButton = loginButton;
+            this.AcceptButton = this.loginButton;
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(350, 175);
+            this.Controls.Add(this.ShowPass);
             this.Controls.Add(this.usernamePasswordWarningLabel);
             this.Controls.Add(this.exitButton);
             this.Controls.Add(this.loginButton);
@@ -123,6 +138,7 @@ namespace BoardGame
             this.Name = "LoginPage";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Login Page";
+            this.Load += new System.EventHandler(this.LoginPage_Load);
             this.KeyDown += new System.Windows.Forms.KeyEventHandler(this.LoginPage_KeyDown);
             this.ResumeLayout(false);
             this.PerformLayout();
@@ -138,6 +154,7 @@ namespace BoardGame
         private System.Windows.Forms.Button loginButton;
         private System.Windows.Forms.Button exitButton;
         private System.Windows.Forms.Label usernamePasswordWarningLabel;
+        private System.Windows.Forms.CheckBox ShowPass;
     }
 }
 
