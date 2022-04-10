@@ -33,9 +33,9 @@ namespace BoardGame
                 UserDatabase.IsUserExistsWithUsernameAndPassword(usernameText, HashPassword.HashString(passwordText));
                 Settings1.Default.username = usernameTextBox.Text;
                 Settings1.Default.Save();
-                MainMenuPage mainMenuPage = new MainMenuPage();               
+                MainMenuPage mainMenuPage = new MainMenuPage();
                 mainMenuPage.Show();
-                
+
             }
             catch (ArgumentException Exception)
             {
@@ -62,23 +62,18 @@ namespace BoardGame
             }
         }
 
-        private void passwordTextBox_KeyPress(object sender, KeyPressEventArgs e)
-        {
-            char ch = e.KeyChar;
-            if (char.IsNumber(ch))
-            {
-                e.Handled = true;
-            }
-        }
+        //private void passwordTextBox_KeyPress(object sender, KeyPressEventArgs e)
+        //{
+        //    char ch = e.KeyChar;
+        //    if (char.IsNumber(ch))
+        //    {
+        //        e.Handled = true;
+        //    }
+        //}
 
         private void LoginPage_Load(object sender, EventArgs e)
         {
             usernameTextBox.Text = Settings1.Default.username;
-        }
-
-        private void ShowPasswordButton_Click(object sender, EventArgs e)
-        {
-            passwordTextBox.PasswordChar = (char)0;
         }
 
         private void ShowPass_CheckedChanged(object sender, EventArgs e)

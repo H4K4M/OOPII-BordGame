@@ -33,6 +33,8 @@ namespace BoardGame.src.design
             this.settingbutton = new System.Windows.Forms.Button();
             this.Wellcome = new System.Windows.Forms.Label();
             this.quitbutton = new System.Windows.Forms.Button();
+            this.Profilebut = new System.Windows.Forms.Button();
+            this.managebut = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // startbutton
@@ -75,11 +77,33 @@ namespace BoardGame.src.design
             this.quitbutton.UseVisualStyleBackColor = true;
             this.quitbutton.Click += new System.EventHandler(this.quitbutton_Click);
             // 
+            // Profilebut
+            // 
+            this.Profilebut.Location = new System.Drawing.Point(12, 12);
+            this.Profilebut.Name = "Profilebut";
+            this.Profilebut.Size = new System.Drawing.Size(75, 23);
+            this.Profilebut.TabIndex = 5;
+            this.Profilebut.Text = "Profile";
+            this.Profilebut.UseVisualStyleBackColor = true;
+            this.Profilebut.Click += new System.EventHandler(this.Profilebut_Click);
+            // 
+            // managebut
+            // 
+            this.managebut.Location = new System.Drawing.Point(12, 41);
+            this.managebut.Name = "managebut";
+            this.managebut.Size = new System.Drawing.Size(102, 23);
+            this.managebut.TabIndex = 6;
+            this.managebut.Text = "ManageUsers";
+            this.managebut.UseVisualStyleBackColor = true;
+            this.managebut.Click += new System.EventHandler(this.managebut_Click);
+            // 
             // MainMenuPage
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(800, 450);
+            this.Controls.Add(this.managebut);
+            this.Controls.Add(this.Profilebut);
             this.Controls.Add(this.Wellcome);
             this.Controls.Add(this.settingbutton);
             this.Controls.Add(this.startbutton);
@@ -91,6 +115,7 @@ namespace BoardGame.src.design
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "MainMenu";
             this.TopMost = true;
+            this.Load += new System.EventHandler(this.MainMenuPage_Load);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -102,5 +127,7 @@ namespace BoardGame.src.design
         private System.Windows.Forms.Button settingbutton;
         private System.Windows.Forms.Label Wellcome;
         private System.Windows.Forms.Button quitbutton;
+        private System.Windows.Forms.Button Profilebut;
+        private System.Windows.Forms.Button managebut;
     }
 }

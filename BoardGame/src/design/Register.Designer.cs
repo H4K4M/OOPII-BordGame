@@ -39,10 +39,10 @@ namespace BoardGame.src.design
             this.EmailLabel = new System.Windows.Forms.Label();
             this.UsernameTxtBox = new System.Windows.Forms.TextBox();
             this.PasswordTxtBox = new System.Windows.Forms.TextBox();
+            this.NameSurnameTxTBox = new System.Windows.Forms.TextBox();
             this.PhoneNumberTxtBox = new System.Windows.Forms.TextBox();
-            this.NameSurnameTxtBox = new System.Windows.Forms.TextBox();
+            this.AdressTxtBox = new System.Windows.Forms.TextBox();
             this.CityTxtBox = new System.Windows.Forms.TextBox();
-            this.AddressTxtBox = new System.Windows.Forms.TextBox();
             this.CountryTxtBox = new System.Windows.Forms.TextBox();
             this.EmailTxtBox = new System.Windows.Forms.TextBox();
             this.RegisterButton = new System.Windows.Forms.Button();
@@ -137,33 +137,34 @@ namespace BoardGame.src.design
             this.PasswordTxtBox.Size = new System.Drawing.Size(209, 23);
             this.PasswordTxtBox.TabIndex = 9;
             // 
+            // NameSurnameTxTBox
+            // 
+            this.NameSurnameTxTBox.Location = new System.Drawing.Point(128, 102);
+            this.NameSurnameTxTBox.Name = "NameSurnameTxTBox";
+            this.NameSurnameTxTBox.Size = new System.Drawing.Size(209, 23);
+            this.NameSurnameTxTBox.TabIndex = 10;
+            // 
             // PhoneNumberTxtBox
             // 
             this.PhoneNumberTxtBox.Location = new System.Drawing.Point(128, 137);
             this.PhoneNumberTxtBox.Name = "PhoneNumberTxtBox";
             this.PhoneNumberTxtBox.Size = new System.Drawing.Size(209, 23);
-            this.PhoneNumberTxtBox.TabIndex = 10;
+            this.PhoneNumberTxtBox.TabIndex = 11;
+            this.PhoneNumberTxtBox.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.PhoneNumberTxtBox_KeyPress);
             // 
-            // NameSurnameTxtBox
+            // AdressTxtBox
             // 
-            this.NameSurnameTxtBox.Location = new System.Drawing.Point(128, 102);
-            this.NameSurnameTxtBox.Name = "NameSurnameTxtBox";
-            this.NameSurnameTxtBox.Size = new System.Drawing.Size(209, 23);
-            this.NameSurnameTxtBox.TabIndex = 11;
+            this.AdressTxtBox.Location = new System.Drawing.Point(128, 172);
+            this.AdressTxtBox.Name = "AdressTxtBox";
+            this.AdressTxtBox.Size = new System.Drawing.Size(209, 23);
+            this.AdressTxtBox.TabIndex = 12;
             // 
             // CityTxtBox
             // 
             this.CityTxtBox.Location = new System.Drawing.Point(128, 207);
             this.CityTxtBox.Name = "CityTxtBox";
             this.CityTxtBox.Size = new System.Drawing.Size(209, 23);
-            this.CityTxtBox.TabIndex = 12;
-            // 
-            // AddressTxtBox
-            // 
-            this.AddressTxtBox.Location = new System.Drawing.Point(128, 172);
-            this.AddressTxtBox.Name = "AddressTxtBox";
-            this.AddressTxtBox.Size = new System.Drawing.Size(209, 23);
-            this.AddressTxtBox.TabIndex = 13;
+            this.CityTxtBox.TabIndex = 13;
             // 
             // CountryTxtBox
             // 
@@ -232,10 +233,10 @@ namespace BoardGame.src.design
             this.Controls.Add(this.RegisterButton);
             this.Controls.Add(this.EmailTxtBox);
             this.Controls.Add(this.CountryTxtBox);
-            this.Controls.Add(this.AddressTxtBox);
             this.Controls.Add(this.CityTxtBox);
-            this.Controls.Add(this.NameSurnameTxtBox);
+            this.Controls.Add(this.AdressTxtBox);
             this.Controls.Add(this.PhoneNumberTxtBox);
+            this.Controls.Add(this.NameSurnameTxTBox);
             this.Controls.Add(this.PasswordTxtBox);
             this.Controls.Add(this.UsernameTxtBox);
             this.Controls.Add(this.EmailLabel);
@@ -265,10 +266,10 @@ namespace BoardGame.src.design
         private System.Windows.Forms.Label EmailLabel;
         private System.Windows.Forms.TextBox UsernameTxtBox;
         private System.Windows.Forms.TextBox PasswordTxtBox;
+        private System.Windows.Forms.TextBox NameSurnameTxTBox;
         private System.Windows.Forms.TextBox PhoneNumberTxtBox;
-        private System.Windows.Forms.TextBox NameSurnameTxtBox;
+        private System.Windows.Forms.TextBox AdressTxtBox;
         private System.Windows.Forms.TextBox CityTxtBox;
-        private System.Windows.Forms.TextBox AddressTxtBox;
         private System.Windows.Forms.TextBox CountryTxtBox;
         private System.Windows.Forms.TextBox EmailTxtBox;
         private System.Windows.Forms.Button RegisterButton;

@@ -10,6 +10,9 @@ namespace BoardGame.src
 {
     public class UserDatabase
     {
+        User user;
+        List<User> users;
+
         private static UserDatabase INSTANCE = null;
 
         private readonly static string USER_DATABASE = "users.json";
@@ -41,7 +44,7 @@ namespace BoardGame.src
         {
             if (InMemoryUserDatabase.ContainsKey(username))
             {
-                User user = InMemoryUserDatabase[username];
+                user = InMemoryUserDatabase[username];
 
                 if (user.PassWord.Equals(password))
                 {
@@ -50,6 +53,37 @@ namespace BoardGame.src
             }
 
             throw new ArgumentException("Username and password did not matched.");
+        }
+
+        public User getuserInfo()
+        {
+            return user;
+        }
+
+        public User getuserInfoByUsername(string username)
+        {
+            return InMemoryUserDatabase[username];
+        }
+
+        public bool checkIsPasswordCorect(String password, User Edituser)
+        {
+            if (user.PassWord.Equals(password))
+            {
+                UpdateUserInfo(user.UserName, Edituser);          
+                return true;
+            }
+            throw new ArgumentException("Password is incorect.");
+        }
+
+        public void UpdateUserInfo(string username, User Edituser)
+        {
+            InMemoryUserDatabase[username].NameSurname = Edituser.NameSurname;
+            InMemoryUserDatabase[username].PhoneNumber = Edituser.PhoneNumber;
+            InMemoryUserDatabase[username].Address = Edituser.Address;
+            InMemoryUserDatabase[username].City = Edituser.City;
+            InMemoryUserDatabase[username].Country = Edituser.Country;
+            InMemoryUserDatabase[username].Email = Edituser.Email;
+            WriteUserDatabaseJsonFile();
         }
 
         public bool RegisterUserIfUserNameNotExists(User user)
@@ -66,6 +100,30 @@ namespace BoardGame.src
             return true;
         }
 
+        public List<string> listUsername()
+        {
+            List<string> usernamelist = new List<string>();
+            ReadUserDatabaseJsonFile();
+            for (int i = 0; i< users.Count; i++)
+            {
+                usernamelist.Add(users[i].UserName);
+            }
+            return usernamelist;
+        }
+
+        public void DeleteUser(string username)
+        {
+            using (StreamWriter streamWriter = File.CreateText(USER_DATABASE))
+            {
+                //List<User> users;
+                users.Remove(InMemoryUserDatabase[username]);
+                string userDatabase = JsonConvert.SerializeObject(users, Formatting.Indented);
+                streamWriter.Write(userDatabase);
+            }
+
+
+        }
+
         private void ReadUserDatabaseJsonFile()
         {
             InMemoryUserDatabase.Clear();
@@ -75,7 +133,7 @@ namespace BoardGame.src
             using (StreamReader streamReader = new StreamReader(fileStream))
             {
                 string userDatabase = streamReader.ReadToEnd();
-                List<User> users = JsonConvert.DeserializeObject<List<User>>(userDatabase);
+                users = JsonConvert.DeserializeObject<List<User>>(userDatabase);
 
                 if (users != null)
                 {
@@ -100,6 +158,11 @@ namespace BoardGame.src
                 string userDatabase = JsonConvert.SerializeObject(users, Formatting.Indented);
                 streamWriter.Write(userDatabase);
             }
+        }
+
+        public UserType GetUserType()
+        {
+            return user.UserType;
         }
     }
 }
