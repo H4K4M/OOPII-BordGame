@@ -34,7 +34,7 @@ namespace BoardGame
             this.usernameTextBox = new System.Windows.Forms.TextBox();
             this.passwordTextBox = new System.Windows.Forms.TextBox();
             this.loginButton = new System.Windows.Forms.Button();
-            this.exitButton = new System.Windows.Forms.Button();
+            this.registerButton = new System.Windows.Forms.Button();
             this.usernamePasswordWarningLabel = new System.Windows.Forms.Label();
             this.ShowPass = new System.Windows.Forms.CheckBox();
             this.SuspendLayout();
@@ -84,22 +84,22 @@ namespace BoardGame
             this.loginButton.UseVisualStyleBackColor = true;
             this.loginButton.Click += new System.EventHandler(this.loginButton_Click);
             // 
-            // exitButton
+            // registerButton
             // 
-            this.exitButton.Location = new System.Drawing.Point(263, 140);
-            this.exitButton.Name = "exitButton";
-            this.exitButton.Size = new System.Drawing.Size(75, 23);
-            this.exitButton.TabIndex = 5;
-            this.exitButton.Text = "Exit";
-            this.exitButton.UseVisualStyleBackColor = true;
-            this.exitButton.Click += new System.EventHandler(this.exitButton_Click);
+            this.registerButton.Location = new System.Drawing.Point(263, 140);
+            this.registerButton.Name = "registerButton";
+            this.registerButton.Size = new System.Drawing.Size(75, 23);
+            this.registerButton.TabIndex = 5;
+            this.registerButton.Text = "Register";
+            this.registerButton.UseVisualStyleBackColor = true;
+            this.registerButton.Click += new System.EventHandler(this.registerButton_Click);
             // 
             // usernamePasswordWarningLabel
             // 
             this.usernamePasswordWarningLabel.AutoSize = true;
             this.usernamePasswordWarningLabel.Font = new System.Drawing.Font("Segoe UI", 8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
             this.usernamePasswordWarningLabel.ForeColor = System.Drawing.Color.Red;
-            this.usernamePasswordWarningLabel.Location = new System.Drawing.Point(62, 104);
+            this.usernamePasswordWarningLabel.Location = new System.Drawing.Point(62, 118);
             this.usernamePasswordWarningLabel.Name = "usernamePasswordWarningLabel";
             this.usernamePasswordWarningLabel.Size = new System.Drawing.Size(52, 13);
             this.usernamePasswordWarningLabel.TabIndex = 6;
@@ -125,7 +125,7 @@ namespace BoardGame
             this.ClientSize = new System.Drawing.Size(350, 175);
             this.Controls.Add(this.ShowPass);
             this.Controls.Add(this.usernamePasswordWarningLabel);
-            this.Controls.Add(this.exitButton);
+            this.Controls.Add(this.registerButton);
             this.Controls.Add(this.loginButton);
             this.Controls.Add(this.passwordTextBox);
             this.Controls.Add(this.usernameTextBox);
@@ -152,7 +152,7 @@ namespace BoardGame
         private System.Windows.Forms.TextBox usernameTextBox;
         private System.Windows.Forms.TextBox passwordTextBox;
         private System.Windows.Forms.Button loginButton;
-        private System.Windows.Forms.Button exitButton;
+        private System.Windows.Forms.Button registerButton;
         private System.Windows.Forms.Label usernamePasswordWarningLabel;
         private System.Windows.Forms.CheckBox ShowPass;
     }

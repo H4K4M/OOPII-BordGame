@@ -6,12 +6,26 @@ using System.Threading.Tasks;
 
 namespace BoardGame.src
 {
-    class User
+    public class User
     {
-        private String Username;
+        public string UserName { get; set; }
+        public string PassWord { get; set; }
+        public string NameSurname { get; set; }
+        public int PhoneNumber { get; set; }
+        public string Address { get; set; }
+        public string City { get; set; }
+        public string Country { get; set; }
+        public string Email { get; set; }
 
-        private String Password;
+        public UserType UserType { get; set; }
 
-        private UserType UserType;
+        public User() { }
+
+        public User(string userName, string passWord, UserType userType)
+        {
+            this.UserName = userName;
+            this.PassWord = passWord;
+            this.UserType = userType;
+        }
     }
 }
