@@ -27,14 +27,14 @@ namespace BoardGame.src.design
 
             user.UserName = UsernameTxtBox.Text;
             user.PassWord = HashPassword.HashString(PasswordTxtBox.Text);
-            user.NameSurname = NameSurnameTxtBox.Text;
+            user.NameSurname = NameSurnameTxTBox.Text;
             
             if (PhoneNumberTxtBox.Text.Length > 0 && PhoneNumberTxtBox.Text != null && PhoneNumberTxtBox.Text != "")
             {
-                user.PhoneNumber = Int32.Parse(PhoneNumberTxtBox.Text);
+                user.PhoneNumber = long.Parse(PhoneNumberTxtBox.Text);
             }
 
-            user.Address = AddressTxtBox.Text;
+            user.Address = AdressTxtBox.Text;
             user.City = CityTxtBox.Text;
             user.Country = CountryTxtBox.Text;
             user.Email = EmailTxtBox.Text;
@@ -61,6 +61,15 @@ namespace BoardGame.src.design
             this.Close();
             LoginPage loginPage = new LoginPage();
             loginPage.Show();
+        }
+
+        private void PhoneNumberTxtBox_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            char ch = e.KeyChar;
+            if (!char.IsNumber(ch))
+            {
+                e.Handled = true;
+            }
         }
     }
 }

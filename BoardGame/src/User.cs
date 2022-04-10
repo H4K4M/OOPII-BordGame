@@ -11,7 +11,7 @@ namespace BoardGame.src
         public string UserName { get; set; }
         public string PassWord { get; set; }
         public string NameSurname { get; set; }
-        public int PhoneNumber { get; set; }
+        public long PhoneNumber { get; set; }
         public string Address { get; set; }
         public string City { get; set; }
         public string Country { get; set; }
