@@ -15,10 +15,11 @@ namespace BoardGame
     public partial class LoginPage : Form
     {
 
-        private readonly UserDatabase userDatabase = new UserDatabase();
+        private readonly UserDatabase UserDatabase;
 
         public LoginPage()
         {
+            UserDatabase = UserDatabase.GetInstance();
             InitializeComponent();
         }
 
@@ -29,7 +30,7 @@ namespace BoardGame
 
             try
             {
-                userDatabase.IsUserExistsWithUsernameAndPassword(usernameText, passwordText);
+                UserDatabase.IsUserExistsWithUsernameAndPassword(usernameText, HashPassword.HashString(passwordText));
                 Settings1.Default.username = usernameTextBox.Text;
                 Settings1.Default.Save();
                 MainMenuPage mainMenuPage = new MainMenuPage();               
@@ -43,11 +44,6 @@ namespace BoardGame
             }
         }
 
-        private void exitButton_Click(object sender, EventArgs e)
-        {
-            System.Windows.Forms.Application.Exit();
-            //this.Close();
-        }
 
         private void LoginPage_KeyDown(object sender, KeyEventArgs e)
         {
@@ -89,6 +85,13 @@ namespace BoardGame
         {
             if (ShowPass.Checked) passwordTextBox.PasswordChar = (char)0;
             else passwordTextBox.PasswordChar = '*';
+        }
+
+        private void registerButton_Click(object sender, EventArgs e)
+        {
+            this.Hide();
+            Register register = new Register();
+            register.Show();
         }
     }
 }

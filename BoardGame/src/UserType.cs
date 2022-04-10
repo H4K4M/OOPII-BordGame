@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace BoardGame.src
 {
-    enum UserType
+    public enum UserType
     {
         ADMIN,
 
