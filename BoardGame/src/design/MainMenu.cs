@@ -53,5 +53,11 @@ namespace BoardGame.src.design
             userManagment.TopMost = true;
             userManagment.Show();
         }
+
+        private void AboutButton_Click(object sender, EventArgs e)
+        {
+            About about = new About();
+            about.ShowDialog();
+        }
     }
 }
