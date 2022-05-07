@@ -38,7 +38,6 @@ namespace BoardGame
             this.checkBox1 = new System.Windows.Forms.CheckBox();
             this.cancelbutton = new System.Windows.Forms.Button();
             this.savebutton = new System.Windows.Forms.Button();
-            this.shapetext = new System.Windows.Forms.Label();
             this.label1 = new System.Windows.Forms.Label();
             this.textBox2 = new System.Windows.Forms.TextBox();
             this.textBox1 = new System.Windows.Forms.TextBox();
@@ -50,8 +49,11 @@ namespace BoardGame
             this.easy = new System.Windows.Forms.RadioButton();
             this.difficulty = new System.Windows.Forms.Label();
             this.settinglabel = new System.Windows.Forms.Label();
+            this.ShapeBox = new System.Windows.Forms.GroupBox();
+            this.SettingsWarning = new System.Windows.Forms.Label();
             this.ColourBox.SuspendLayout();
             this.diffpanel.SuspendLayout();
+            this.ShapeBox.SuspendLayout();
             this.SuspendLayout();
             // 
             // ColourBox
@@ -104,7 +106,7 @@ namespace BoardGame
             // checkBox3
             // 
             this.checkBox3.AutoSize = true;
-            this.checkBox3.Location = new System.Drawing.Point(458, 263);
+            this.checkBox3.Location = new System.Drawing.Point(194, 22);
             this.checkBox3.Name = "checkBox3";
             this.checkBox3.Size = new System.Drawing.Size(61, 19);
             this.checkBox3.TabIndex = 25;
@@ -114,7 +116,7 @@ namespace BoardGame
             // checkBox2
             // 
             this.checkBox2.AutoSize = true;
-            this.checkBox2.Location = new System.Drawing.Point(369, 263);
+            this.checkBox2.Location = new System.Drawing.Point(105, 22);
             this.checkBox2.Name = "checkBox2";
             this.checkBox2.Size = new System.Drawing.Size(67, 19);
             this.checkBox2.TabIndex = 24;
@@ -124,7 +126,7 @@ namespace BoardGame
             // checkBox1
             // 
             this.checkBox1.AutoSize = true;
-            this.checkBox1.Location = new System.Drawing.Point(288, 263);
+            this.checkBox1.Location = new System.Drawing.Point(24, 22);
             this.checkBox1.Name = "checkBox1";
             this.checkBox1.Size = new System.Drawing.Size(62, 19);
             this.checkBox1.TabIndex = 23;
@@ -150,16 +152,6 @@ namespace BoardGame
             this.savebutton.Text = "SAVE";
             this.savebutton.UseVisualStyleBackColor = true;
             this.savebutton.Click += new System.EventHandler(this.savebutton_Click);
-            // 
-            // shapetext
-            // 
-            this.shapetext.AutoSize = true;
-            this.shapetext.Font = new System.Drawing.Font("Times New Roman", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-            this.shapetext.Location = new System.Drawing.Point(201, 261);
-            this.shapetext.Name = "shapetext";
-            this.shapetext.Size = new System.Drawing.Size(47, 19);
-            this.shapetext.TabIndex = 20;
-            this.shapetext.Text = "Shape";
             // 
             // label1
             // 
@@ -276,18 +268,39 @@ namespace BoardGame
             this.settinglabel.TabIndex = 14;
             this.settinglabel.Text = "Setting";
             // 
+            // ShapeBox
+            // 
+            this.ShapeBox.Controls.Add(this.checkBox3);
+            this.ShapeBox.Controls.Add(this.checkBox1);
+            this.ShapeBox.Controls.Add(this.checkBox2);
+            this.ShapeBox.Location = new System.Drawing.Point(145, 245);
+            this.ShapeBox.Name = "ShapeBox";
+            this.ShapeBox.Size = new System.Drawing.Size(482, 50);
+            this.ShapeBox.TabIndex = 27;
+            this.ShapeBox.TabStop = false;
+            this.ShapeBox.Text = "Shape";
+            // 
+            // SettingsWarning
+            // 
+            this.SettingsWarning.AutoSize = true;
+            this.SettingsWarning.ForeColor = System.Drawing.Color.Red;
+            this.SettingsWarning.Location = new System.Drawing.Point(145, 406);
+            this.SettingsWarning.Name = "SettingsWarning";
+            this.SettingsWarning.Size = new System.Drawing.Size(52, 15);
+            this.SettingsWarning.TabIndex = 28;
+            this.SettingsWarning.Text = "Warning";
+            this.SettingsWarning.Visible = false;
+            // 
             // SettingPage
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(800, 450);
+            this.Controls.Add(this.SettingsWarning);
+            this.Controls.Add(this.ShapeBox);
             this.Controls.Add(this.ColourBox);
-            this.Controls.Add(this.checkBox3);
-            this.Controls.Add(this.checkBox2);
-            this.Controls.Add(this.checkBox1);
             this.Controls.Add(this.cancelbutton);
             this.Controls.Add(this.savebutton);
-            this.Controls.Add(this.shapetext);
             this.Controls.Add(this.label1);
             this.Controls.Add(this.textBox2);
             this.Controls.Add(this.textBox1);
@@ -305,6 +318,8 @@ namespace BoardGame
             this.ColourBox.PerformLayout();
             this.diffpanel.ResumeLayout(false);
             this.diffpanel.PerformLayout();
+            this.ShapeBox.ResumeLayout(false);
+            this.ShapeBox.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -321,7 +336,6 @@ namespace BoardGame
         private System.Windows.Forms.CheckBox checkBox1;
         private System.Windows.Forms.Button cancelbutton;
         private System.Windows.Forms.Button savebutton;
-        private System.Windows.Forms.Label shapetext;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.TextBox textBox2;
         private System.Windows.Forms.TextBox textBox1;
@@ -333,5 +347,7 @@ namespace BoardGame
         private System.Windows.Forms.RadioButton easy;
         private System.Windows.Forms.Label difficulty;
         private System.Windows.Forms.Label settinglabel;
+        private System.Windows.Forms.GroupBox ShapeBox;
+        private System.Windows.Forms.Label SettingsWarning;
     }
 }

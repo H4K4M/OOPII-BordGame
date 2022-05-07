@@ -13,10 +13,52 @@ namespace BoardGame.src.design
     public partial class MainMenuPage : Form
     {
         private readonly UserDatabase UserDatabase;
+
+        private Board board;
+        
         public MainMenuPage()
         {
             UserDatabase = UserDatabase.GetInstance();
             InitializeComponent();
+        }
+
+        public void AddCellToBoardPanel(Cell cell)
+        {
+            BoardPanel.Controls.Add(cell);
+        }
+
+        public void SetBoardPanelDimensions(int rowSize, int columnSize, int buttonWidth, int buttonHeight)
+        {
+            BoardPanel.Height = buttonHeight * rowSize;
+            BoardPanel.Width = buttonWidth * columnSize;
+        }
+
+        private void DetermineBoardSize()
+        {
+            int CustomRow = int.Parse(Settings1.Default.texbox1);
+            int CustomColumn = int.Parse(Settings1.Default.textbox2);
+
+            if (Settings1.Default.easy == true)
+            {
+                board = new Board(15, 15, this);
+            }
+            if (Settings1.Default.normal == true)
+            {
+                board = new Board(9, 9, this);
+            }
+            if (Settings1.Default.hard == true)
+            {
+                board = new Board(6, 6, this);
+            }
+            if (Settings1.Default.custom == true)
+            {
+                board = new Board(CustomRow, CustomColumn, this);
+            }
+        }
+
+        private void Button_Click(object sender, EventArgs e)
+        {
+            Button button = sender as Button;
         }
 
         private void settingbutton_Click(object sender, EventArgs e)
@@ -24,6 +66,7 @@ namespace BoardGame.src.design
             SettingPage settingPage = new SettingPage();
             settingPage.TopMost = true;
             settingPage.Show();
+            this.Close();
         }
         private void quitbutton_Click(object sender, EventArgs e)
         {
@@ -40,6 +83,9 @@ namespace BoardGame.src.design
 
         private void MainMenuPage_Load(object sender, EventArgs e)
         {
+            BoardPanel.Controls.Clear();
+            DetermineBoardSize();
+
             UserType userType = UserDatabase.GetUserType();
             if(userType == UserType.USER)
             {
