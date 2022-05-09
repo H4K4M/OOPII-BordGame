@@ -21,7 +21,6 @@ namespace BoardGame.src.design
             UserDatabase = UserDatabase.GetInstance();
             InitializeComponent();
         }
-
         public void AddCellToBoardPanel(Cell cell)
         {
             BoardPanel.Controls.Add(cell);
@@ -55,12 +54,6 @@ namespace BoardGame.src.design
                 board = new Board(CustomRow, CustomColumn, this);
             }
         }
-
-        private void Button_Click(object sender, EventArgs e)
-        {
-            Button button = sender as Button;
-        }
-
         private void settingbutton_Click(object sender, EventArgs e)
         {
             SettingPage settingPage = new SettingPage();
@@ -85,7 +78,7 @@ namespace BoardGame.src.design
         {
             BoardPanel.Controls.Clear();
             DetermineBoardSize();
-
+            
             UserType userType = UserDatabase.GetUserType();
             if(userType == UserType.USER)
             {
