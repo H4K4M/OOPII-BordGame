@@ -35,6 +35,7 @@ namespace BoardGame.src.design
             this.managebut = new System.Windows.Forms.Button();
             this.AboutButton = new System.Windows.Forms.Button();
             this.BoardPanel = new System.Windows.Forms.Panel();
+            this.helpbutton = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // settingbutton
@@ -94,11 +95,22 @@ namespace BoardGame.src.design
             this.BoardPanel.Size = new System.Drawing.Size(426, 426);
             this.BoardPanel.TabIndex = 8;
             // 
+            // helpbutton
+            // 
+            this.helpbutton.Location = new System.Drawing.Point(12, 157);
+            this.helpbutton.Name = "helpbutton";
+            this.helpbutton.Size = new System.Drawing.Size(75, 23);
+            this.helpbutton.TabIndex = 9;
+            this.helpbutton.Text = "Help";
+            this.helpbutton.UseVisualStyleBackColor = true;
+            this.helpbutton.Click += new System.EventHandler(this.helpbutton_Click);
+            // 
             // MainMenuPage
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(794, 651);
+            this.Controls.Add(this.helpbutton);
             this.Controls.Add(this.BoardPanel);
             this.Controls.Add(this.AboutButton);
             this.Controls.Add(this.managebut);
@@ -123,5 +135,6 @@ namespace BoardGame.src.design
         private System.Windows.Forms.Button managebut;
         private System.Windows.Forms.Button AboutButton;
         private System.Windows.Forms.Panel BoardPanel;
+        private System.Windows.Forms.Button helpbutton;
     }
 }
