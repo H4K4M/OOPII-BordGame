@@ -98,5 +98,12 @@ namespace BoardGame.src.design
             About about = new About();
             about.ShowDialog();
         }
+
+        private void helpbutton_Click(object sender, EventArgs e)
+        {
+            Help help = new Help();
+            help.TopMost = true;
+            help.ShowDialog();
+        }
     }
 }
