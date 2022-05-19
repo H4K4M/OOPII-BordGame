@@ -32,7 +32,7 @@ namespace BoardGame.src.design
             BoardPanel.Width = buttonWidth * columnSize;
         }
 
-        private void DetermineBoardSize()
+        public void DetermineBoardSize()
         {
             int CustomRow = int.Parse(Settings1.Default.texbox1);
             int CustomColumn = int.Parse(Settings1.Default.textbox2);
@@ -56,10 +56,10 @@ namespace BoardGame.src.design
         }
         private void settingbutton_Click(object sender, EventArgs e)
         {
-            SettingPage settingPage = new SettingPage();
+            SettingPage settingPage = new SettingPage(this);
             settingPage.TopMost = true;
-            settingPage.Show();
-            this.Close();
+            settingPage.ShowDialog();
+            //this.Close();
         }
         private void quitbutton_Click(object sender, EventArgs e)
         {

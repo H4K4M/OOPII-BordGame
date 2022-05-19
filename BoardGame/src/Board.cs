@@ -15,6 +15,7 @@ namespace BoardGame.src.design
 
         private HashSet<Color> EnabledColors = new HashSet<Color>();
         private HashSet<string> EnabledShapes = new HashSet<string>();
+        private MainMenuPage mainGame = new MainMenuPage();
 
         public Cell[,] Grid { get; set; }
 
@@ -23,12 +24,12 @@ namespace BoardGame.src.design
             Text = "Score :",
             Location = new Point(12, 600),
         };
-        public Board (int rowSize, int columnSize, MainMenuPage mainMenu)
+        public Board(int rowSize, int columnSize, MainMenuPage mainMenu)
         {
             RowSize = rowSize;
             ColumnSize = columnSize;
-
-            mainMenu.SetBoardPanelDimensions(rowSize, columnSize, Cell.BUTTON_WIDTH, Cell.BUTTON_HEIGHT);
+            mainGame = mainMenu;
+            mainGame.SetBoardPanelDimensions(rowSize, columnSize, Cell.BUTTON_WIDTH, Cell.BUTTON_HEIGHT);
 
             Grid = new Cell[RowSize, ColumnSize];
 
@@ -37,7 +38,7 @@ namespace BoardGame.src.design
                 for (int j = 0; j < ColumnSize; j++)
                 {
                     Grid[i, j] = new Cell();
-                    
+
 
                     Grid[i, j].Height = Cell.BUTTON_HEIGHT;
                     Grid[i, j].Width = Cell.BUTTON_WIDTH;
@@ -46,11 +47,11 @@ namespace BoardGame.src.design
 
                     Grid[i, j].Location = new Point(i * Cell.BUTTON_HEIGHT, j * Cell.BUTTON_WIDTH);
 
-                    mainMenu.AddCellToBoardPanel(Grid[i, j]);
+                    mainGame.AddCellToBoardPanel(Grid[i, j]);
                 }
             }
-            
-            mainMenu.Controls.Add(label1);
+
+            mainGame.Controls.Add(label1);
             FillColorsAndShapesSetsUsingSettings();
             OccupyThreeRandomLocation();
         }
@@ -101,14 +102,14 @@ namespace BoardGame.src.design
             {
                 OccupyRandomLocation();
             }
-            
+
         }
 
         public void OccupyRandomLocation()
         {
             Random random = new Random();
 
-            while(true)
+            while (true)
             {
                 int RowNumber = random.Next(0, RowSize);
                 int ColumnNumber = random.Next(0, ColumnSize);
@@ -171,29 +172,41 @@ namespace BoardGame.src.design
 
             }
         }
-        private bool isGridAvailable(int row, int col)
+        public int getscore(int j, int i)
         {
-            if (Grid[col, row].Occupied == false) 
+            
+            if (Settings1.Default.easy == true)
             {
-                return true;
+                return 1;
             }
-            return false;
+            if (Settings1.Default.normal == true)
+            {
+                return 3;
+            }
+            if (Settings1.Default.hard == true)
+            {
+                return 5;
+            }
+            if (Settings1.Default.custom == true)
+            {
+                return 2;
+            }
+            return 0;
         }
         public int getScoreCheckbord()
-        {
-            string text;
-            Color color;
-            int count = 0;
+        { 
+            int countHorz = 0, countVert = 0;
             int score = 0;
-            //check Horz
+            
             for (int i = 0; i < RowSize; i++)
             {
                 for (int j = 1; j < ColumnSize; j++)
                 {
+                    //check Horz
                     if (Grid[j - 1, i].Text == Grid[j, i].Text && Grid[j - 1, i].ForeColor == Grid[j, i].ForeColor && Grid[j, i].Occupied)
                     {
-                        count++;
-                        if (count == 4)
+                        countHorz++;
+                        if (countHorz == 4)
                         {
                             for (int k = j; k > j - 5; k--)
                             {
@@ -201,36 +214,15 @@ namespace BoardGame.src.design
                                 Grid[k, i].Text = "";
                                 Grid[k, i].Occupied = false;
                             }
-                            if (Settings1.Default.easy == true)
-                            {
-                                score += 1;
-                            }
-                            if (Settings1.Default.normal == true)
-                            {
-                                score += 3;
-                            }
-                            if (Settings1.Default.hard == true)
-                            {
-                                score += 5;
-                            }
-                            if (Settings1.Default.custom == true)
-                            {
-                                score += 2;
-                            }
+                            score += getscore(j, i);
                         }
                     }
-                    else { count = 0;  }
-                }    
-            }
-            //check Vert
-            for (int i = 0; i < ColumnSize; i++)
-            {
-                for (int j = 1; j < RowSize; j++)
-                {
+                    else { countHorz = 0; }
+                    //check Vert
                     if (Grid[i, j - 1].Text == Grid[i, j].Text && Grid[i, j - 1].ForeColor == Grid[i, j].ForeColor && Grid[i, j].Occupied)
                     {
-                        count++;
-                        if (count == 4)
+                        countVert++;
+                        if (countVert == 4)
                         {
                             for (int k = j; k > j - 5; k--)
                             {
@@ -238,28 +230,13 @@ namespace BoardGame.src.design
                                 Grid[i, k].Text = "";
                                 Grid[i, k].Occupied = false;
                             }
-                            if (Settings1.Default.easy == true)
-                            {
-                                score += 1;
-                            }
-                            if (Settings1.Default.normal == true)
-                            {
-                                score += 3;
-                            }
-                            if (Settings1.Default.hard == true)
-                            {
-                                score += 5;
-                            }
-                            if (Settings1.Default.custom == true)
-                            {
-                                score += 2;
-                            }
+                            score += getscore(j, i);
                         }
                     }
-                    else { count = 0;  }
+                    else { countVert = 0; }
                 }
             }
-            if(score == 0) { OccupyThreeRandomLocation(); }
+            if (score == 0) { OccupyThreeRandomLocation(); }
             return score;
         }
         private void gameover()
@@ -277,101 +254,139 @@ namespace BoardGame.src.design
             {
                 string message = "Game Over\n" + "Total Score: " + tmp.ToString();
                 MessageBoxButtons buttons = MessageBoxButtons.OK;
-                DialogResult result = MessageBox.Show(message," ", buttons);
-                if (result == DialogResult.OK) 
-                {
-                    MainMenuPage mainMenuPage = new MainMenuPage();
-                    mainMenuPage.ShowDialog();
-                }                  
+                DialogResult result = MessageBox.Show(message, " ", buttons);
+                if (result == DialogResult.OK)
+                { 
+                    mainGame.BoardPanel.Controls.Clear();
+                    mainGame.DetermineBoardSize();
+                }
             }
         }
-        private List<int> memoryRow = new List<int>();
-        private List<int> memoryCol = new List<int>();
-        private int[,] ghostGrid = new int[50,50];
-        private int tmp;
-        private void Move( string shape, Color color)
+        class Index
         {
-            Grid[memoryCol[0], memoryRow[0]].Occupied = false;
-            Grid[memoryCol[memoryRow.Count() - 1], memoryRow[memoryRow.Count() - 1]].Occupied = true;
-            for (int i = 0; i < memoryRow.Count() - 1;i++)
+            public int row;
+            public int col;
+            public Index prev;
+            public Index(int row, int col)
             {
-                Grid[memoryCol[i+1], memoryRow[i + 1]].ForeColor = color;
-                Grid[memoryCol[i+1], memoryRow[i + 1]].Text = shape;
-                Grid[memoryCol[i], memoryRow[i]].ForeColor = Color.White;
-                Grid[memoryCol[i], memoryRow[i]].Text = "";
-                Task.Delay(500).Wait();
+                this.row = row;
+                this.col = col;
+                prev = null;
+
             }
-            memoryRow.Clear();
-            memoryCol.Clear();
-            
-            tmp += getScoreCheckbord();
-            label1.Text = "Score : "+tmp.ToString();
-            gameover();
-        }
-        
-        private void CopyGrid()
+        }       
+        private void Move(List<Index> list)
         {
+            for(int i = list.Count - 1; i > 0; i--)
+            {
+                Task.Delay(1000).Wait();
+
+                int r = list[i].row;
+                int c = list[i].col;
+
+                int nr = list[i - 1].row;
+                int nc = list[i - 1].col;
+                Grid[nc, nr].ForeColor = colormove;
+                Grid[nc, nr].Text = shapemove;
+                Grid[nc, nr].Occupied = true;
+                Grid[c, r].ForeColor = Color.White;
+                Grid[c, r].Text = "";
+                Grid[c, r].Occupied = false;
+
+            }
+        }
+        private bool shortpath(int srcX, int srcY, int destX, int destY, ref List<Index> list)
+        {
+            char[,] grid = new char[RowSize, ColumnSize];
             for (int i = 0; i < RowSize; i++)
             {
                 for (int j = 0; j < ColumnSize; j++)
                 {
-                    if (Grid[i, j].Occupied)
-                    { ghostGrid[i,j] = -1; }
-                    else { ghostGrid[i,j] = 0; }
+                    if (!Grid[j, i].Occupied) //empty
+                    {
+                        grid[i, j] = '1';
+                    }
+                    if (Grid[j, i].Occupied) //Occupide
+                    {
+                        grid[i, j] = '0';
+                    }
+                    if (i == srcX && j == srcY) { grid[i, j] = 's'; } //start
+                    if (i == destX && j == destY) { grid[i, j] = 'd'; } //destination
                 }
             }
-        }
-        private void getmove(int row, int col)
-        {
+            Index src = new Index(0, 0);
+            bool[,] visited = new bool[RowSize, ColumnSize];
+            for (int i = 0; i < RowSize; i++)
+            {
+                for (int j = 0; j < ColumnSize; j++)
+                {
+                    if (grid[i, j] == '0')
+                        visited[i, j] = true;  //visited
+                    else
+                        visited[i, j] = false;
 
-            if (isGridAvailable(row, col))
+                    if (grid[i, j] == 's')
+                    {
+                        src.row = i;
+                        src.col = j;
+                    }
+                }
+            }
+            List<Index> indexes = new List<Index>();
+            indexes.Add(src);
+            visited[src.row, src.col] = true;
+            while (indexes.Any())
             {
-                memoryRow.Add(row);
-                memoryCol.Add(col);
+                Index p = indexes[0];
+                indexes.RemoveAt(0);
 
-                Movement(nextrow, nextcol, row, col, shapemove, colormove);
+                if (grid[p.row, p.col] == 'd')
+                {
+                    while (p != null)
+                    {
+                        list.Add(p);
+                        p = p.prev;
+                    }
+                    return true;
+                }
+
+                // up
+                if (p.row - 1 >= 0 && visited[p.row - 1, p.col] == false)
+                {
+                    Index q = new Index(p.row - 1, p.col);
+                    q.prev = p;
+                    indexes.Add(q);
+                    visited[p.row - 1, p.col] = true;
+                }
+
+                // down
+                if (p.row + 1 < RowSize && visited[p.row + 1, p.col] == false)
+                {
+                    Index q = new Index(p.row + 1, p.col);
+                    q.prev = p;
+                    indexes.Add(q);
+                    visited[p.row + 1, p.col] = true;
+                }
+
+                // left
+                if (p.col - 1 >= 0 && visited[p.row, p.col - 1] == false)
+                {
+                    Index q = new Index(p.row, p.col - 1);
+                    q.prev = p;
+                    indexes.Add(q);
+                    visited[p.row, p.col - 1] = true;
+                }
+
+                // right
+                if (p.col + 1 < ColumnSize && visited[p.row, p.col + 1] == false)
+                {
+                    Index q = new Index(p.row, p.col + 1);
+                    q.prev = p;
+                    indexes.Add(q);
+                    visited[p.row, p.col + 1] = true;
+                }
             }
-            
-        }
-        private void Movement(int nextrow, int nextcol, int currrow, int currcol, string shape, Color color)
-        {
-            if (currcol == nextcol && currrow == nextrow)
-            {
-                return;
-            }
-            else if (currcol == nextcol) //UpDown
-            {
-                if (currrow > nextrow) // up
-                {
-                    getmove(currrow - 1, currcol);
-                }
-                if (currrow < nextrow) // down
-                {
-                    getmove(currrow + 1, currcol);
-                }
-            }
-            else if (currrow == nextrow) // LeftRight
-            {
-                if (currcol > nextcol) // left
-                {
-                    getmove(currrow, currcol - 1);
-                }
-                if (currcol < nextcol) // right
-                {
-                    getmove(currrow, currcol + 1);
-                }
-            }
-            else if (currrow != nextrow && currcol != nextcol) //diaganal
-            {
-                if (currcol > nextcol) // left
-                {
-                    getmove(currrow, currcol - 1);
-                }
-                if (currcol < nextcol) // right
-                {
-                    getmove(currrow, currcol + 1);
-                }
-            }
+            return false;
         }
         private void getIndex(Button button, ref int row, ref int col)
         {
@@ -388,40 +403,41 @@ namespace BoardGame.src.design
                 }
             }
         }
-        
         private string shapemove;
         private Color colormove;
+        private int tmp;
         private int currrow = 0, currcol = 0, nextrow = 0, nextcol = 0;
         private bool shapeSelected = false;
         private void Button_Click(object sender, EventArgs e)
         {
             Button button = sender as Button;
-
-           
-            if (EnabledShapes.Contains(button.Text))
+       
+            if (EnabledShapes.Contains(button.Text)) //first click
             {
                 getIndex(button, ref currrow, ref currcol);
                 shapemove = button.Text;
                 colormove = button.ForeColor;
                 shapeSelected = true;
             }
-            else if(!EnabledShapes.Contains(button.Text) && shapeSelected == true)
-            {
-                //get
-                CopyGrid();
-                
+            else if(!EnabledShapes.Contains(button.Text) && shapeSelected == true) //Destination click
+            {               
                 getIndex(button, ref nextrow, ref nextcol);
-                memoryRow.Add(currrow);
-                memoryCol.Add(currcol);
-                Movement(nextrow, nextcol, currrow, currcol, shapemove, colormove);
-                Move(shapemove, colormove);
+                List<Index> list = new List<Index>();
+                if(shortpath(currrow,currcol,nextrow,nextcol,ref list)) // check short path
+                {
+                    Move(list); //make move
+                    Task.Delay(1000).Wait();
+                    tmp += getScoreCheckbord(); //get score if no score random new 3 shape and color
+                    label1.Text = "Score : " + tmp.ToString();
+                    gameover();
+                }
+                else
+                {
+                    MessageBox.Show("No path to move");
+                }
                 shapeSelected = false;
-            }
-
-            
-            
+            }   
         }
-
         public Board()
         {
             RowSize = 0;
