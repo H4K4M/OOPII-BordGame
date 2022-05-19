@@ -286,9 +286,11 @@ namespace BoardGame.src.design
 
                 int nr = list[i - 1].row;
                 int nc = list[i - 1].col;
+                // destination cell
                 Grid[nc, nr].ForeColor = colormove;
                 Grid[nc, nr].Text = shapemove;
                 Grid[nc, nr].Occupied = true;
+                // start cell
                 Grid[c, r].ForeColor = Color.White;
                 Grid[c, r].Text = "";
                 Grid[c, r].Occupied = false;
