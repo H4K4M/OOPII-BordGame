@@ -20,10 +20,11 @@ namespace BoardGame
         private static int MIN_BOARD_WIDTH = 6;
         private static int MIN_BOARD_HEIGHT = 6;
         private static int MIN_SELECTED_CHECKBOX_COUNT = 1;
-
-        public SettingPage()
+        private MainMenuPage game;
+        public SettingPage(MainMenuPage mainMenu)
         {
             InitializeComponent();
+            game = mainMenu;
         }
 
        
@@ -62,9 +63,6 @@ namespace BoardGame
             GreenColour.Checked = Settings1.Default.green;
 
             this.Hide();
-
-            MainMenuPage mainMenuPage = new MainMenuPage();
-            mainMenuPage.Show();
         }
         private void savebutton_Click(object sender, EventArgs e)
         {
@@ -104,15 +102,13 @@ namespace BoardGame
 
                     this.Hide();
 
-                    MainMenuPage mainMenuPage = new MainMenuPage();
-                    mainMenuPage.Show();
+                    game.BoardPanel.Controls.Clear();
+                    game.DetermineBoardSize();
                 }
                 else
                 {
                     throw new ArgumentException("You must select more shapes or colors");
                 }
-
-                
             }
             catch (ArgumentException Exception)
             {
@@ -120,14 +116,26 @@ namespace BoardGame
                 SettingsWarning.Visible = true;
             }
         }
-
-
         private void SettingPage_Load(object sender, EventArgs e)
         {
             easy.Checked = Settings1.Default.easy;
             hard.Checked = Settings1.Default.hard;
             normal.Checked = Settings1.Default.normal;
             custom.Checked = Settings1.Default.custom;
+            if (custom.Checked)
+            {
+                text.Show();
+                label1.Show();
+                textBox1.Show();
+                textBox2.Show();
+            }
+            else
+            {
+                text.Hide();
+                label1.Hide();
+                textBox1.Hide();
+                textBox2.Hide();
+            }
             checkBox1.Checked = Settings1.Default.square;
             checkBox2.Checked = Settings1.Default.triangle;
             checkBox3.Checked = Settings1.Default.round;

@@ -134,7 +134,7 @@ namespace BoardGame.src.design
         private System.Windows.Forms.Button Profilebut;
         private System.Windows.Forms.Button managebut;
         private System.Windows.Forms.Button AboutButton;
-        private System.Windows.Forms.Panel BoardPanel;
+        public System.Windows.Forms.Panel BoardPanel;
         private System.Windows.Forms.Button helpbutton;
     }
 }
