@@ -36,6 +36,8 @@ namespace BoardGame.src.design
             this.AboutButton = new System.Windows.Forms.Button();
             this.BoardPanel = new System.Windows.Forms.Panel();
             this.helpbutton = new System.Windows.Forms.Button();
+            this.HighscoreLable = new System.Windows.Forms.Label();
+            this.ScoreLabel = new System.Windows.Forms.Label();
             this.SuspendLayout();
             // 
             // settingbutton
@@ -90,6 +92,7 @@ namespace BoardGame.src.design
             // 
             // BoardPanel
             // 
+            this.BoardPanel.BackColor = System.Drawing.SystemColors.GradientActiveCaption;
             this.BoardPanel.Location = new System.Drawing.Point(156, 12);
             this.BoardPanel.Name = "BoardPanel";
             this.BoardPanel.Size = new System.Drawing.Size(426, 426);
@@ -105,11 +108,31 @@ namespace BoardGame.src.design
             this.helpbutton.UseVisualStyleBackColor = true;
             this.helpbutton.Click += new System.EventHandler(this.helpbutton_Click);
             // 
+            // HighscoreLable
+            // 
+            this.HighscoreLable.AutoSize = true;
+            this.HighscoreLable.Location = new System.Drawing.Point(19, 195);
+            this.HighscoreLable.Name = "HighscoreLable";
+            this.HighscoreLable.Size = new System.Drawing.Size(95, 15);
+            this.HighscoreLable.TabIndex = 10;
+            this.HighscoreLable.Text = "Your HighScore :";
+            // 
+            // ScoreLabel
+            // 
+            this.ScoreLabel.AutoSize = true;
+            this.ScoreLabel.Location = new System.Drawing.Point(19, 223);
+            this.ScoreLabel.Name = "ScoreLabel";
+            this.ScoreLabel.Size = new System.Drawing.Size(88, 15);
+            this.ScoreLabel.TabIndex = 11;
+            this.ScoreLabel.Text = "Current Score : ";
+            // 
             // MainMenuPage
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(794, 651);
+            this.Controls.Add(this.ScoreLabel);
+            this.Controls.Add(this.HighscoreLable);
             this.Controls.Add(this.helpbutton);
             this.Controls.Add(this.BoardPanel);
             this.Controls.Add(this.AboutButton);
@@ -125,6 +148,7 @@ namespace BoardGame.src.design
             this.TopMost = true;
             this.Load += new System.EventHandler(this.MainMenuPage_Load);
             this.ResumeLayout(false);
+            this.PerformLayout();
 
         }
 
@@ -136,5 +160,7 @@ namespace BoardGame.src.design
         private System.Windows.Forms.Button AboutButton;
         public System.Windows.Forms.Panel BoardPanel;
         private System.Windows.Forms.Button helpbutton;
+        public System.Windows.Forms.Label HighscoreLable;
+        public System.Windows.Forms.Label ScoreLabel;
     }
 }

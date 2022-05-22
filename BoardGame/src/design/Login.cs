@@ -33,7 +33,8 @@ namespace BoardGame
                 UserDatabase.IsUserExistsWithUsernameAndPassword(usernameText, HashPassword.HashString(passwordText));
                 Settings1.Default.username = usernameTextBox.Text;
                 Settings1.Default.Save();
-                MainMenuPage mainMenuPage = new MainMenuPage();
+                MainMenuPage mainMenuPage = new MainMenuPage(usernameText);
+                this.Hide();
                 mainMenuPage.Show();
 
             }
@@ -84,9 +85,9 @@ namespace BoardGame
 
         private void registerButton_Click(object sender, EventArgs e)
         {
-            this.Hide();
+            //this.Hide();
             Register register = new Register();
-            register.Show();
+            register.ShowDialog();
         }
     }
 }

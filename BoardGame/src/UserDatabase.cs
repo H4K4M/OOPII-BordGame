@@ -3,19 +3,21 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
+using System.Data;
+using System.Data.SqlClient;
 namespace BoardGame.src
 {
     public class UserDatabase
     {
         User user;
-        List<User> users;
-
+        List<User> users = new List<User>();
+        //---------For SQL Local PC Host-----------#
+        //private string connString = @"Data Source=H4K4M\SQLEXPRESS;Initial Catalog=users;MultipleActiveResultSets = True; Integrated Security=True";
+        
+        //--------For SQL Somee online cloud Host---------//
+        private string connString = @"Data Source=UserDatabase.mssql.somee.com;Initial Catalog=UserDatabase;Persist Security Info=True;User ID=hakamkk123_SQLLogin_1;Password=qj4mbyoxwq";
+        
         private static UserDatabase INSTANCE = null;
-
-        private readonly static string USER_DATABASE = "users.json";
 
         private Dictionary<String, User> InMemoryUserDatabase = new Dictionary<String, User>();
 
@@ -24,7 +26,6 @@ namespace BoardGame.src
             { "admin", new User("admin", HashPassword.HashString("admin"), UserType.ADMIN)},
             { "user", new User("user", HashPassword.HashString("user"), UserType.USER)}
         };
-
         public static UserDatabase GetInstance()
         {
             if (INSTANCE == null)
@@ -34,12 +35,10 @@ namespace BoardGame.src
 
             return INSTANCE;
         }
-
         private UserDatabase()
         {
-            ReadUserDatabaseJsonFile();
+            ReadUserDatabase();
         }
-
         public bool IsUserExistsWithUsernameAndPassword(String username, String password)
         {
             if (InMemoryUserDatabase.ContainsKey(username))
@@ -54,17 +53,14 @@ namespace BoardGame.src
 
             throw new ArgumentException("Username and password did not matched.");
         }
-
         public User getuserInfo()
         {
             return user;
         }
-
         public User getuserInfoByUsername(string username)
         {
             return InMemoryUserDatabase[username];
         }
-
         public bool checkIsPasswordCorect(String password, User Edituser)
         {
             if (user.PassWord.Equals(password))
@@ -74,7 +70,6 @@ namespace BoardGame.src
             }
             throw new ArgumentException("Password is incorect.");
         }
-
         public void UpdateUserInfo(string username, User Edituser)
         {
             InMemoryUserDatabase[username].NameSurname = Edituser.NameSurname;
@@ -83,9 +78,29 @@ namespace BoardGame.src
             InMemoryUserDatabase[username].City = Edituser.City;
             InMemoryUserDatabase[username].Country = Edituser.Country;
             InMemoryUserDatabase[username].Email = Edituser.Email;
-            WriteUserDatabaseJsonFile();
-        }
+            InMemoryUserDatabase[username].UserHighScore = Edituser.UserHighScore;
+            SqlConnection conn = new SqlConnection(connString);
 
+            string query = "update dbo.Users set NameSurname=@NameSurname,PhoneNumber = @PhoneNumber,Address =  @Address" +
+                ",City = @City,Country = @Country,Email = @Email,Usertype = @Usertype,HighScore = @HighScore where UserName = @UserName";
+                   
+
+            SqlCommand cmd = new SqlCommand(query, conn);
+            conn.Open();
+            cmd.Parameters.AddWithValue("@UserName", InMemoryUserDatabase[username].UserName);
+            cmd.Parameters.AddWithValue("@NameSurname", InMemoryUserDatabase[username].NameSurname);
+            cmd.Parameters.AddWithValue("@PhoneNumber", InMemoryUserDatabase[username].PhoneNumber);
+            cmd.Parameters.AddWithValue("@Address", InMemoryUserDatabase[username].Address);
+            cmd.Parameters.AddWithValue("@City", InMemoryUserDatabase[username].City);
+            cmd.Parameters.AddWithValue("@Country", InMemoryUserDatabase[username].Country);
+            cmd.Parameters.AddWithValue("@Email", InMemoryUserDatabase[username].Email);
+            if (InMemoryUserDatabase[username].UserType == UserType.ADMIN) cmd.Parameters.AddWithValue("@Usertype", 0);
+            else cmd.Parameters.AddWithValue("@Usertype", 1);
+            cmd.Parameters.AddWithValue("@HighScore", InMemoryUserDatabase[username].UserHighScore);
+            cmd.ExecuteNonQuery();
+            //}
+            conn.Close();
+        }
         public bool RegisterUserIfUserNameNotExists(User user)
         {
             if (InMemoryUserDatabase.ContainsKey(user.UserName))
@@ -95,71 +110,108 @@ namespace BoardGame.src
 
             InMemoryUserDatabase.Add(user.UserName, user);
 
-            WriteUserDatabaseJsonFile();
+            WriteUserDatabase();
 
             return true;
         }
-
-        public List<string> listUsername()
+        public List<User> listUser()
         {
-            List<string> usernamelist = new List<string>();
-            ReadUserDatabaseJsonFile();
-            for (int i = 0; i< users.Count; i++)
-            {
-                usernamelist.Add(users[i].UserName);
-            }
-            return usernamelist;
+            ReadUserDatabase();
+            return users;
         }
-
         public void DeleteUser(string username)
         {
-            using (StreamWriter streamWriter = File.CreateText(USER_DATABASE))
+            try
             {
-                //List<User> users;
+                string query = "delete from dbo.Users where UserName = @UserName";
+                SqlConnection conn = new SqlConnection(connString);
+                SqlCommand cmd = new SqlCommand(query, conn);
+                conn.Open();
+
+                cmd.Parameters.AddWithValue("@UserName", InMemoryUserDatabase[username].UserName);
+                cmd.ExecuteNonQuery();
                 users.Remove(InMemoryUserDatabase[username]);
-                string userDatabase = JsonConvert.SerializeObject(users, Formatting.Indented);
-                streamWriter.Write(userDatabase);
+                conn.Close();
+                
             }
-
-
+            catch
+            {
+                throw new ArgumentException("This User name can not Delete");
+            }
         }
-
-        private void ReadUserDatabaseJsonFile()
+        private void ReadUserDatabase()
         {
             InMemoryUserDatabase.Clear();
+            string query = "select * from dbo.Users";
+            SqlConnection conn = new SqlConnection(connString);
+            SqlCommand cmd = new SqlCommand(query, conn);
+            conn.Open();
+        
+            SqlDataAdapter da = new SqlDataAdapter(cmd);
 
-            FileStream fileStream = File.Open(USER_DATABASE, FileMode.OpenOrCreate);
-
-            using (StreamReader streamReader = new StreamReader(fileStream))
+            DataTable dataTable = new DataTable();
+     
+            da.Fill(dataTable);
+            users.Clear();
+            for (int i = 0; i < dataTable.Rows.Count; i++)
             {
-                string userDatabase = streamReader.ReadToEnd();
-                users = JsonConvert.DeserializeObject<List<User>>(userDatabase);
-
-                if (users != null)
+                User user = new User();
+                user.UserName = dataTable.Rows[i]["UserName"].ToString();
+                user.PassWord = dataTable.Rows[i]["Password"].ToString();
+                user.NameSurname = dataTable.Rows[i]["NameSurname"].ToString();
+                user.PhoneNumber = dataTable.Rows[i]["PhoneNumber"].ToString(); ;
+                user.Address = dataTable.Rows[i]["Address"].ToString();
+                user.City = dataTable.Rows[i]["City"].ToString();
+                user.Country = dataTable.Rows[i]["Country"].ToString();
+                user.Email = dataTable.Rows[i]["Email"].ToString();
+                int usertype = Convert.ToInt32(dataTable.Rows[i]["Usertype"]);
+                if(usertype == 0) user.UserType = UserType.ADMIN;
+                else user.UserType = UserType.USER;
+                user.UserHighScore = Convert.ToInt32(dataTable.Rows[i]["HighScore"]);
+                users.Add(user);
+            }
+            if (users != null)
+            {
+                foreach (User user in users)
                 {
-                    foreach (User user in users)
-                    {
-                        InMemoryUserDatabase.Add(user.UserName, user);
-                    }
-                }
-                else
-                {
-                    InMemoryUserDatabase = PreRegisteredUsers;
+                    InMemoryUserDatabase.Add(user.UserName, user);
                 }
             }
-            fileStream.Close();
-        }
-
-        private void WriteUserDatabaseJsonFile()
-        {
-            using (StreamWriter streamWriter = File.CreateText(USER_DATABASE))
+            else
             {
-                List<User> users = InMemoryUserDatabase.Values.ToList();
-                string userDatabase = JsonConvert.SerializeObject(users, Formatting.Indented);
-                streamWriter.Write(userDatabase);
+                InMemoryUserDatabase = PreRegisteredUsers;
             }
+            conn.Close();
+            da.Dispose();
         }
+        private void WriteUserDatabase()
+        {            
+            List<User> users = InMemoryUserDatabase.Values.ToList();
 
+            SqlConnection conn = new SqlConnection(connString);
+            
+            string query = "insert into dbo.Users(UserName,Password,NameSurname,PhoneNumber,Address,City,Country,Email,Usertype,HighScore) " +
+                    "values(@UserName, @Password, @NameSurname, @PhoneNumber, @Address, @City, @Country, @Email, @Usertype, @HighScore)";
+                
+            SqlCommand cmd = new SqlCommand(query, conn);
+            conn.Open();
+            cmd.Parameters.AddWithValue("@UserName", users[users.Count-1].UserName);
+            cmd.Parameters.AddWithValue("@Password", users[users.Count - 1].PassWord);
+            cmd.Parameters.AddWithValue("@NameSurname", users[users.Count - 1].NameSurname);
+            cmd.Parameters.AddWithValue("@PhoneNumber", users[users.Count - 1].PhoneNumber);
+            cmd.Parameters.AddWithValue("@Address", users[users.Count - 1].Address);
+            cmd.Parameters.AddWithValue("@City", users[users.Count - 1].City);
+            cmd.Parameters.AddWithValue("@Country", users[users.Count - 1].Country);
+            cmd.Parameters.AddWithValue("@Email", users[users.Count - 1].Email);
+            if (users[users.Count - 1].UserType == UserType.ADMIN) cmd.Parameters.AddWithValue("@Usertype", 0);
+            else cmd.Parameters.AddWithValue("@Usertype", 1);
+            cmd.Parameters.AddWithValue("@HighScore", users[users.Count - 1].UserHighScore);
+            cmd.ExecuteNonQuery();
+            
+            conn.Close();
+            
+
+        }
         public UserType GetUserType()
         {
             return user.UserType;

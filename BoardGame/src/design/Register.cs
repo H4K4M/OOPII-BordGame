@@ -28,12 +28,7 @@ namespace BoardGame.src.design
             user.UserName = UsernameTxtBox.Text;
             user.PassWord = HashPassword.HashString(PasswordTxtBox.Text);
             user.NameSurname = NameSurnameTxTBox.Text;
-            
-            if (PhoneNumberTxtBox.Text.Length > 0 && PhoneNumberTxtBox.Text != null && PhoneNumberTxtBox.Text != "")
-            {
-                user.PhoneNumber = long.Parse(PhoneNumberTxtBox.Text);
-            }
-
+            user.PhoneNumber = PhoneNumberTxtBox.Text;
             user.Address = AdressTxtBox.Text;
             user.City = CityTxtBox.Text;
             user.Country = CountryTxtBox.Text;
@@ -45,8 +40,8 @@ namespace BoardGame.src.design
                 if (UserDatabase.RegisterUserIfUserNameNotExists(user))
                 {
                     this.Close();
-                    LoginPage loginPage = new LoginPage();
-                    loginPage.Show();
+                    //LoginPage loginPage = new LoginPage();
+                    //loginPage.Show();
                 }
             }
             catch (ArgumentException Exception)
@@ -59,8 +54,8 @@ namespace BoardGame.src.design
         private void BackButton_Click(object sender, EventArgs e)
         {
             this.Close();
-            LoginPage loginPage = new LoginPage();
-            loginPage.Show();
+            //LoginPage loginPage = new LoginPage();
+            //loginPage.Show();
         }
 
         private void PhoneNumberTxtBox_KeyPress(object sender, KeyPressEventArgs e)

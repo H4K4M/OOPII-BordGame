@@ -2,34 +2,33 @@
 using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using System.Media;
 
 namespace BoardGame.src.design
 {
     public class Board
     {
+        private readonly UserDatabase UserDatabase;
         public int RowSize { get; set; }
         public int ColumnSize { get; set; }
 
         private HashSet<Color> EnabledColors = new HashSet<Color>();
         private HashSet<string> EnabledShapes = new HashSet<string>();
         private MainMenuPage mainGame = new MainMenuPage();
+        private string thisUserName;
 
-        public Cell[,] Grid { get; set; }
+        public Cell[,] Grid;
 
-        private Label label1 = new Label()
+        public Board(int rowSize, int columnSize, MainMenuPage mainMenu, string username)
         {
-            Text = "Score :",
-            Location = new Point(12, 600),
-        };
-        public Board(int rowSize, int columnSize, MainMenuPage mainMenu)
-        {
+            UserDatabase = UserDatabase.GetInstance();
+            thisUserName = username;
             RowSize = rowSize;
             ColumnSize = columnSize;
             mainGame = mainMenu;
-            mainGame.SetBoardPanelDimensions(rowSize, columnSize, Cell.BUTTON_WIDTH, Cell.BUTTON_HEIGHT);
+            mainGame.SetBoardPanelDimensions(RowSize, ColumnSize, Cell.BUTTON_WIDTH, Cell.BUTTON_HEIGHT);
 
             Grid = new Cell[RowSize, ColumnSize];
 
@@ -38,20 +37,13 @@ namespace BoardGame.src.design
                 for (int j = 0; j < ColumnSize; j++)
                 {
                     Grid[i, j] = new Cell();
-
-
-                    Grid[i, j].Height = Cell.BUTTON_HEIGHT;
-                    Grid[i, j].Width = Cell.BUTTON_WIDTH;
-
+                    Grid[i, j].Size = new Size(Cell.BUTTON_HEIGHT, Cell.BUTTON_WIDTH);
                     Grid[i, j].Click += new EventHandler(Button_Click);
-
-                    Grid[i, j].Location = new Point(i * Cell.BUTTON_HEIGHT, j * Cell.BUTTON_WIDTH);
+                    Grid[i, j].Location = new Point(j * Cell.BUTTON_HEIGHT, i * Cell.BUTTON_WIDTH);
 
                     mainGame.AddCellToBoardPanel(Grid[i, j]);
                 }
-            }
-
-            mainGame.Controls.Add(label1);
+            }            
             FillColorsAndShapesSetsUsingSettings();
             OccupyThreeRandomLocation();
         }
@@ -102,9 +94,9 @@ namespace BoardGame.src.design
             {
                 OccupyRandomLocation();
             }
-
+            
+            Score += getScoreCheckbord(); //Check score if new random canmake score
         }
-
         public void OccupyRandomLocation()
         {
             Random random = new Random();
@@ -169,10 +161,9 @@ namespace BoardGame.src.design
                 {
                     EnabledColors.Add(color);
                 }
-
             }
         }
-        public int getscore(int j, int i)
+        public int getscore()
         {
             
             if (Settings1.Default.easy == true)
@@ -194,35 +185,18 @@ namespace BoardGame.src.design
             return 0;
         }
         public int getScoreCheckbord()
-        { 
-            int countHorz = 0, countVert = 0;
-            int score = 0;
-            
+        {             
+            int score = 0;           
             for (int i = 0; i < RowSize; i++)
             {
+                int countHorz = 0, countVert = 0;
                 for (int j = 1; j < ColumnSize; j++)
                 {
                     //check Horz
-                    if (Grid[j - 1, i].Text == Grid[j, i].Text && Grid[j - 1, i].ForeColor == Grid[j, i].ForeColor && Grid[j, i].Occupied)
-                    {
-                        countHorz++;
-                        if (countHorz == 4)
-                        {
-                            for (int k = j; k > j - 5; k--)
-                            {
-                                Grid[k, i].ForeColor = Color.White;
-                                Grid[k, i].Text = "";
-                                Grid[k, i].Occupied = false;
-                            }
-                            score += getscore(j, i);
-                        }
-                    }
-                    else { countHorz = 0; }
-                    //check Vert
                     if (Grid[i, j - 1].Text == Grid[i, j].Text && Grid[i, j - 1].ForeColor == Grid[i, j].ForeColor && Grid[i, j].Occupied)
                     {
-                        countVert++;
-                        if (countVert == 4)
+                        countHorz++;
+                        if (countHorz >= 4)
                         {
                             for (int k = j; k > j - 5; k--)
                             {
@@ -230,15 +204,35 @@ namespace BoardGame.src.design
                                 Grid[i, k].Text = "";
                                 Grid[i, k].Occupied = false;
                             }
-                            score += getscore(j, i);
+                            SoundPlayer Sound = new SoundPlayer("../../../SoundEffect/getScore.wav");
+                            Sound.Play();
+                            score += getscore();
+                        }
+                    }
+                    else { countHorz = 0; }
+                    //check Vert
+                    if (j < RowSize && Grid[j - 1, i].Text == Grid[j, i].Text && Grid[j - 1, i].ForeColor == Grid[j, i].ForeColor && Grid[j, i].Occupied)
+                    {
+                        countVert++;
+                        if (countVert >= 4)
+                        {
+                            for (int k = j; k > j - 5; k--)
+                            {
+                                Grid[k, i].ForeColor = Color.White;
+                                Grid[k, i].Text = "";
+                                Grid[k, i].Occupied = false;
+                            }
+                            SoundPlayer Sound = new SoundPlayer("../../../SoundEffect/getScore.wav");
+                            Sound.Play();
+                            score += getscore();
                         }
                     }
                     else { countVert = 0; }
                 }
             }
-            if (score == 0) { OccupyThreeRandomLocation(); }
             return score;
         }
+        
         private void gameover()
         {
             int n = 0;
@@ -252,7 +246,18 @@ namespace BoardGame.src.design
             }
             if (n == RowSize * ColumnSize)
             {
-                string message = "Game Over\n" + "Total Score: " + tmp.ToString();
+                string message = "Game Over\n" + "Total Score: " + Score.ToString();
+                if(Score > UserDatabase.getuserInfoByUsername(thisUserName).UserHighScore)
+                {
+                    message += Environment.NewLine + "!Your got new High Score!";
+                    mainGame.HighscoreLable.Text = "Your High Score : "+ Score;
+                    SoundPlayer Sound = new SoundPlayer("../../../SoundEffect/gameOver.wav");
+                    Sound.Play();
+                    User user = UserDatabase.getuserInfoByUsername(thisUserName);
+                    user.UserHighScore = Score;
+                    UserDatabase.UpdateUserInfo(thisUserName, user);
+                }
+                
                 MessageBoxButtons buttons = MessageBoxButtons.OK;
                 DialogResult result = MessageBox.Show(message, " ", buttons);
                 if (result == DialogResult.OK)
@@ -278,23 +283,23 @@ namespace BoardGame.src.design
         private void Move(List<Index> list)
         {
             for(int i = list.Count - 1; i > 0; i--)
-            {
-                Task.Delay(1000).Wait();
-
+            {               
                 int r = list[i].row;
                 int c = list[i].col;
 
                 int nr = list[i - 1].row;
                 int nc = list[i - 1].col;
                 // destination cell
-                Grid[nc, nr].ForeColor = colormove;
-                Grid[nc, nr].Text = shapemove;
-                Grid[nc, nr].Occupied = true;
+                Grid[nr, nc].ForeColor = colormove;
+                Grid[nr, nc].Text = shapemove;
+                Grid[nr, nc].Occupied = true;
                 // start cell
-                Grid[c, r].ForeColor = Color.White;
-                Grid[c, r].Text = "";
-                Grid[c, r].Occupied = false;
-
+                Grid[r, c].ForeColor = Color.White;
+                Grid[r, c].Text = "";
+                Grid[r, c].Occupied = false;
+                SoundPlayer Sound = new SoundPlayer("../../../SoundEffect/moving.wav");
+                Sound.Play();
+                Task.Delay(1000).Wait();
             }
         }
         private bool shortpath(int srcX, int srcY, int destX, int destY, ref List<Index> list)
@@ -304,11 +309,11 @@ namespace BoardGame.src.design
             {
                 for (int j = 0; j < ColumnSize; j++)
                 {
-                    if (!Grid[j, i].Occupied) //empty
+                    if (!Grid[i, j].Occupied) //empty
                     {
                         grid[i, j] = '1';
                     }
-                    if (Grid[j, i].Occupied) //Occupide
+                    if (Grid[i, j].Occupied) //Occupide
                     {
                         grid[i, j] = '0';
                     }
@@ -398,8 +403,8 @@ namespace BoardGame.src.design
                 {
                     if (Grid[i, j].Location == button.Location)
                     {
-                        row = j;
-                        col = i;
+                        row = i;
+                        col = j;
                         return;
                     }
                 }
@@ -407,7 +412,7 @@ namespace BoardGame.src.design
         }
         private string shapemove;
         private Color colormove;
-        private int tmp;
+        private int Score;
         private int currrow = 0, currcol = 0, nextrow = 0, nextcol = 0;
         private bool shapeSelected = false;
         private void Button_Click(object sender, EventArgs e)
@@ -428,9 +433,13 @@ namespace BoardGame.src.design
                 if(shortpath(currrow,currcol,nextrow,nextcol,ref list)) // check short path
                 {
                     Move(list); //make move
-                    Task.Delay(1000).Wait();
-                    tmp += getScoreCheckbord(); //get score if no score random new 3 shape and color
-                    label1.Text = "Score : " + tmp.ToString();
+                    int tmp = Score;
+                    Score += getScoreCheckbord(); //get score 
+                    if(tmp == Score) //if no score random new 3 shape and color
+                    {
+                        OccupyThreeRandomLocation();
+                    }
+                    mainGame.ScoreLabel.Text = "Score : " + Score.ToString();
                     gameover();
                 }
                 else

@@ -227,6 +227,7 @@ namespace BoardGame.src.design
             this.Name = "Profiles";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Profiles";
+            this.TopMost = true;
             this.Load += new System.EventHandler(this.Profiles_Load);
             this.ResumeLayout(false);
             this.PerformLayout();

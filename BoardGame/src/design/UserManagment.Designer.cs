@@ -29,7 +29,6 @@ namespace BoardGame.src.design
         /// </summary>
         private void InitializeComponent()
         {
-            this.userlist = new System.Windows.Forms.ListBox();
             this.userlistlabel = new System.Windows.Forms.Label();
             this.updatinfoubut = new System.Windows.Forms.Button();
             this.deletebut = new System.Windows.Forms.Button();
@@ -49,18 +48,12 @@ namespace BoardGame.src.design
             this.textBox3 = new System.Windows.Forms.TextBox();
             this.textBox5 = new System.Windows.Forms.TextBox();
             this.textBox4 = new System.Windows.Forms.TextBox();
+            this.UserDataGridview = new System.Windows.Forms.DataGridView();
+            this.Username = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Score = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.panel1.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.UserDataGridview)).BeginInit();
             this.SuspendLayout();
-            // 
-            // userlist
-            // 
-            this.userlist.Font = new System.Drawing.Font("Segoe UI", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-            this.userlist.FormattingEnabled = true;
-            this.userlist.ItemHeight = 20;
-            this.userlist.Location = new System.Drawing.Point(30, 59);
-            this.userlist.Name = "userlist";
-            this.userlist.Size = new System.Drawing.Size(112, 264);
-            this.userlist.TabIndex = 0;
             // 
             // userlistlabel
             // 
@@ -74,7 +67,7 @@ namespace BoardGame.src.design
             // 
             // updatinfoubut
             // 
-            this.updatinfoubut.Location = new System.Drawing.Point(148, 59);
+            this.updatinfoubut.Location = new System.Drawing.Point(26, 329);
             this.updatinfoubut.Name = "updatinfoubut";
             this.updatinfoubut.Size = new System.Drawing.Size(116, 23);
             this.updatinfoubut.TabIndex = 2;
@@ -84,9 +77,9 @@ namespace BoardGame.src.design
             // 
             // deletebut
             // 
-            this.deletebut.Location = new System.Drawing.Point(148, 89);
+            this.deletebut.Location = new System.Drawing.Point(166, 329);
             this.deletebut.Name = "deletebut";
-            this.deletebut.Size = new System.Drawing.Size(75, 23);
+            this.deletebut.Size = new System.Drawing.Size(108, 23);
             this.deletebut.TabIndex = 4;
             this.deletebut.Text = "Delete User";
             this.deletebut.UseVisualStyleBackColor = true;
@@ -94,7 +87,7 @@ namespace BoardGame.src.design
             // 
             // adduserbut
             // 
-            this.adduserbut.Location = new System.Drawing.Point(148, 118);
+            this.adduserbut.Location = new System.Drawing.Point(104, 366);
             this.adduserbut.Name = "adduserbut";
             this.adduserbut.Size = new System.Drawing.Size(96, 23);
             this.adduserbut.TabIndex = 5;
@@ -104,7 +97,7 @@ namespace BoardGame.src.design
             // 
             // refreshbut
             // 
-            this.refreshbut.Location = new System.Drawing.Point(46, 329);
+            this.refreshbut.Location = new System.Drawing.Point(199, 56);
             this.refreshbut.Name = "refreshbut";
             this.refreshbut.Size = new System.Drawing.Size(75, 23);
             this.refreshbut.TabIndex = 6;
@@ -239,35 +232,65 @@ namespace BoardGame.src.design
             this.textBox4.Size = new System.Drawing.Size(191, 23);
             this.textBox4.TabIndex = 17;
             // 
+            // UserDataGridview
+            // 
+            this.UserDataGridview.AllowUserToResizeColumns = false;
+            this.UserDataGridview.AllowUserToResizeRows = false;
+            this.UserDataGridview.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.UserDataGridview.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
+            this.Username,
+            this.Score});
+            this.UserDataGridview.Location = new System.Drawing.Point(30, 85);
+            this.UserDataGridview.Name = "UserDataGridview";
+            this.UserDataGridview.RowTemplate.Height = 25;
+            this.UserDataGridview.Size = new System.Drawing.Size(244, 238);
+            this.UserDataGridview.TabIndex = 8;
+            // 
+            // Username
+            // 
+            this.Username.Frozen = true;
+            this.Username.HeaderText = "UserName";
+            this.Username.Name = "Username";
+            this.Username.ReadOnly = true;
+            this.Username.Resizable = System.Windows.Forms.DataGridViewTriState.False;
+            // 
+            // Score
+            // 
+            this.Score.Frozen = true;
+            this.Score.HeaderText = "HighScore";
+            this.Score.Name = "Score";
+            this.Score.ReadOnly = true;
+            this.Score.Resizable = System.Windows.Forms.DataGridViewTriState.False;
+            // 
             // UserManagment
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(800, 450);
+            this.Controls.Add(this.UserDataGridview);
             this.Controls.Add(this.panel1);
             this.Controls.Add(this.refreshbut);
             this.Controls.Add(this.adduserbut);
             this.Controls.Add(this.deletebut);
             this.Controls.Add(this.updatinfoubut);
             this.Controls.Add(this.userlistlabel);
-            this.Controls.Add(this.userlist);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
             this.MaximizeBox = false;
             this.MinimizeBox = false;
             this.Name = "UserManagment";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "UserManagment";
+            this.TopMost = true;
             this.Load += new System.EventHandler(this.UserManagment_Load);
             this.panel1.ResumeLayout(false);
             this.panel1.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.UserDataGridview)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
         }
 
         #endregion
-
-        private System.Windows.Forms.ListBox userlist;
         private System.Windows.Forms.Label userlistlabel;
         private System.Windows.Forms.Button updatinfoubut;
         private System.Windows.Forms.Button deletebut;
@@ -287,5 +310,8 @@ namespace BoardGame.src.design
         private System.Windows.Forms.TextBox textBox3;
         private System.Windows.Forms.TextBox textBox5;
         private System.Windows.Forms.TextBox textBox4;
+        private System.Windows.Forms.DataGridView UserDataGridview;
+        private System.Windows.Forms.DataGridViewTextBoxColumn Username;
+        private System.Windows.Forms.DataGridViewTextBoxColumn Score;
     }
 }
