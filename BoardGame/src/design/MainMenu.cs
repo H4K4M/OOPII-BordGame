@@ -13,13 +13,14 @@ namespace BoardGame.src.design
     public partial class MainMenuPage : Form
     {
         private readonly UserDatabase UserDatabase;
-
+        private string thisUsername;
         private Board board;
         
-        public MainMenuPage()
+        public MainMenuPage(string username = "")
         {
             UserDatabase = UserDatabase.GetInstance();
             InitializeComponent();
+            thisUsername = username;
         }
         public void AddCellToBoardPanel(Cell cell)
         {
@@ -39,19 +40,19 @@ namespace BoardGame.src.design
 
             if (Settings1.Default.easy == true)
             {
-                board = new Board(15, 15, this);
+                board = new Board(15, 15, this, thisUsername);
             }
             if (Settings1.Default.normal == true)
             {
-                board = new Board(9, 9, this);
+                board = new Board(9, 9, this, thisUsername);
             }
             if (Settings1.Default.hard == true)
             {
-                board = new Board(6, 6, this);
+                board = new Board(6, 6, this, thisUsername);
             }
             if (Settings1.Default.custom == true)
             {
-                board = new Board(CustomRow, CustomColumn, this);
+                board = new Board(CustomRow, CustomColumn, this, thisUsername);
             }
         }
         private void settingbutton_Click(object sender, EventArgs e)
@@ -70,8 +71,7 @@ namespace BoardGame.src.design
         private void Profilebut_Click(object sender, EventArgs e)
         {
             Profiles profiles = new Profiles();
-            profiles.TopMost = true;
-            profiles.Show();
+            profiles.ShowDialog();
         }
 
         private void MainMenuPage_Load(object sender, EventArgs e)
@@ -83,14 +83,16 @@ namespace BoardGame.src.design
             if(userType == UserType.USER)
             {
                 managebut.Hide();
-            }           
+            }
+            
+            HighscoreLable.Text += UserDatabase.getuserInfoByUsername(thisUsername).UserHighScore.ToString();
+            
         }
 
         private void managebut_Click(object sender, EventArgs e)
         {
-            UserManagment userManagment = new UserManagment();
-            userManagment.TopMost = true;
-            userManagment.Show();
+            UserManagment userManagment = new UserManagment();           
+            userManagment.ShowDialog();
         }
 
         private void AboutButton_Click(object sender, EventArgs e)

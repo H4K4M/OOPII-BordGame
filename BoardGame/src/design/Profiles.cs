@@ -43,6 +43,7 @@ namespace BoardGame.src.design
             textBox6.ReadOnly = false;
             passctrltextbox.Show();
             label1.Show();
+            editbut.Hide();
         }
 
         private void canclebut_Click(object sender, EventArgs e)
@@ -65,15 +66,10 @@ namespace BoardGame.src.design
 
         private void savebut_Click(object sender, EventArgs e)
         {
-            User user = new User();
+            User user = UserDatabase.getuserInfo();
 
             user.NameSurname = textBox1.Text;
-
-            if (textBox2.Text.Length > 0 && textBox2.Text != null && textBox2.Text != "")
-            {
-                user.PhoneNumber = long.Parse(textBox2.Text);
-            }
-
+            user.PhoneNumber = textBox2.Text;
             user.Address = textBox3.Text;
             user.City = textBox4.Text;
             user.Country = textBox5.Text;
@@ -83,13 +79,13 @@ namespace BoardGame.src.design
             try
             {
                 UserDatabase.checkIsPasswordCorect(HashPassword.HashString(passwordText), user);
+                UserDatabase.UpdateUserInfo(user.UserName, user);
+                this.Close();
             }
             catch (ArgumentException Exception)
             {
                 label1.Text = Exception.Message;
-            }
-            User userinfo = UserDatabase.getuserInfo();
-            this.Close();
+            }         
         }
     }
 }

@@ -23,41 +23,48 @@ namespace BoardGame.src.design
 
         private void UserManagment_Load(object sender, EventArgs e)
         {
-            List<string> usernamelist = UserDatabase.listUsername();
-            for (int i = 0; i < usernamelist.Count; i++)
+            List<User> userslist = UserDatabase.listUser();            
+            for (int i = 0; i < userslist.Count; i++)
             {
-                userlist.Items.Add(usernamelist[i]);
+                if (userslist[i].UserName != "admin" && userslist[i].UserName != "user")
+                {
+                    UserDataGridview.Rows.Add(userslist[i].UserName, userslist[i].UserHighScore.ToString());                   
+               }
             }
         }
 
         private void deletebut_Click(object sender, EventArgs e)
         {
-            if (userlist.SelectedItems.Count != 0)
+            
+            if (UserDataGridview.SelectedCells.Count != 0 && UserDataGridview.CurrentCell.ColumnIndex == 0 
+                && UserDataGridview.CurrentCell.Value != null && MessageBox.Show("Are you sure want to delete ", "Delete user", MessageBoxButtons.YesNo, MessageBoxIcon.Warning) == DialogResult.Yes)
             {
-                while (userlist.SelectedIndex != -1)
-                {
-                    string username = userlist.GetItemText(userlist.SelectedItem);
-                    userlist.Items.RemoveAt(userlist.SelectedIndex);
-                    UserDatabase.DeleteUser(username);
-                    panel1.Hide();
-                }
-                
+                string username = UserDataGridview.CurrentCell.Value.ToString();
+                int i = UserDataGridview.CurrentCell.RowIndex;
+                UserDataGridview.Rows.RemoveAt(i);
+                UserDatabase.DeleteUser(username);
+                panel1.Hide();               
+
             }
         }
 
         private void adduserbut_Click(object sender, EventArgs e)
         {
             Register register = new Register();
-            register.Show();
+            register.TopMost = true;          
+            register.ShowDialog();
         }
 
         private void refreshbut_Click(object sender, EventArgs e)
         {
-            userlist.Items.Clear();
-            List<string> usernamelist = UserDatabase.listUsername();
-            for (int i = 0; i < usernamelist.Count; i++)
+            UserDataGridview.Rows.Clear();
+            List<User> userslist = UserDatabase.listUser();
+            for (int i = 0; i < userslist.Count; i++)
             {
-                userlist.Items.Add(usernamelist[i]);
+                if (userslist[i].UserName != "admin" && userslist[i].UserName != "user")
+                {
+                    UserDataGridview.Rows.Add(userslist[i].UserName, userslist[i].UserHighScore.ToString());
+                }
             }
 
         }
@@ -75,9 +82,9 @@ namespace BoardGame.src.design
         private void updatinfoubut_Click(object sender, EventArgs e)
         {
             string username;
-            if (userlist.SelectedItems.Count != 0)
+            if (UserDataGridview.SelectedCells.Count !=0 && UserDataGridview.CurrentCell.ColumnIndex == 0 && UserDataGridview.CurrentCell.Value != null)
             {
-                username = userlist.GetItemText(userlist.SelectedItem);
+                username = UserDataGridview.CurrentCell.Value.ToString();
                 User userinfo = UserDatabase.getuserInfoByUsername(username);
                 textBox1.Text = userinfo.NameSurname;
                 textBox2.Text = userinfo.PhoneNumber.ToString();
@@ -93,21 +100,18 @@ namespace BoardGame.src.design
 
         private void savebut_Click(object sender, EventArgs e)
         {
-            User user = new User();
+            string username = UserDataGridview.CurrentCell.Value.ToString();
+           
+            User user = UserDatabase.getuserInfoByUsername(username);
 
-            user.NameSurname = textBox1.Text;
-
-            if (textBox2.Text.Length > 0 && textBox2.Text != null && textBox2.Text != "")
-            {
-                user.PhoneNumber = long.Parse(textBox2.Text);
-            }
-
+            user.NameSurname = textBox1.Text;           
+            user.PhoneNumber = textBox2.Text;
             user.Address = textBox3.Text;
             user.City = textBox4.Text;
             user.Country = textBox5.Text;
             user.Email = textBox6.Text;
 
-            string username = userlist.GetItemText(userlist.SelectedItem);
+            
             UserDatabase.UpdateUserInfo(username,user);
 
             panel1.Hide();
