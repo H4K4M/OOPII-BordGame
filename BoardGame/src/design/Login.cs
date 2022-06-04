@@ -36,7 +36,6 @@ namespace BoardGame
                 MainMenuPage mainMenuPage = new MainMenuPage(usernameText);
                 this.Hide();
                 mainMenuPage.Show();
-
             }
             catch (ArgumentException Exception)
             {
@@ -62,15 +61,6 @@ namespace BoardGame
                 e.Handled = true;
             }
         }
-
-        //private void passwordTextBox_KeyPress(object sender, KeyPressEventArgs e)
-        //{
-        //    char ch = e.KeyChar;
-        //    if (char.IsNumber(ch))
-        //    {
-        //        e.Handled = true;
-        //    }
-        //}
 
         private void LoginPage_Load(object sender, EventArgs e)
         {

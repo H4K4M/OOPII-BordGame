@@ -8,6 +8,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
+
 namespace BoardGame.src.design
 {
     public partial class MainMenuPage : Form
@@ -15,12 +16,11 @@ namespace BoardGame.src.design
         private readonly UserDatabase UserDatabase;
         private string thisUsername;
         private Board board;
-        
         public MainMenuPage(string username = "")
         {
             UserDatabase = UserDatabase.GetInstance();
-            InitializeComponent();
-            thisUsername = username;
+            InitializeComponent();           
+            thisUsername = username;                        
         }
         public void AddCellToBoardPanel(Cell cell)
         {
@@ -60,12 +60,10 @@ namespace BoardGame.src.design
             SettingPage settingPage = new SettingPage(this);
             settingPage.TopMost = true;
             settingPage.ShowDialog();
-            //this.Close();
         }
         private void quitbutton_Click(object sender, EventArgs e)
         {
             System.Windows.Forms.Application.Exit();
-            //this.Close();
         }
 
         private void Profilebut_Click(object sender, EventArgs e)
@@ -88,7 +86,6 @@ namespace BoardGame.src.design
             HighscoreLable.Text += UserDatabase.getuserInfoByUsername(thisUsername).UserHighScore.ToString();
             
         }
-
         private void managebut_Click(object sender, EventArgs e)
         {
             UserManagment userManagment = new UserManagment();           
@@ -106,6 +103,18 @@ namespace BoardGame.src.design
             Help help = new Help();
             help.TopMost = true;
             help.ShowDialog();
+        }
+
+        private void MultiPlayerButton_Click(object sender, EventArgs e)
+        {
+            this.Hide();
+            Connecting connecting = new Connecting(thisUsername);
+            connecting.ShowDialog();
+        }
+
+        private void MainMenuPage_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            System.Windows.Forms.Application.Exit();
         }
     }
 }
