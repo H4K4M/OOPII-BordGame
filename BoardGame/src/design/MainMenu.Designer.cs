@@ -38,6 +38,7 @@ namespace BoardGame.src.design
             this.helpbutton = new System.Windows.Forms.Button();
             this.HighscoreLable = new System.Windows.Forms.Label();
             this.ScoreLabel = new System.Windows.Forms.Label();
+            this.MultiPlayerButton = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // settingbutton
@@ -93,7 +94,7 @@ namespace BoardGame.src.design
             // BoardPanel
             // 
             this.BoardPanel.BackColor = System.Drawing.SystemColors.GradientActiveCaption;
-            this.BoardPanel.Location = new System.Drawing.Point(156, 12);
+            this.BoardPanel.Location = new System.Drawing.Point(157, 41);
             this.BoardPanel.Name = "BoardPanel";
             this.BoardPanel.Size = new System.Drawing.Size(426, 426);
             this.BoardPanel.TabIndex = 8;
@@ -126,11 +127,22 @@ namespace BoardGame.src.design
             this.ScoreLabel.TabIndex = 11;
             this.ScoreLabel.Text = "Current Score : ";
             // 
+            // MultiPlayerButton
+            // 
+            this.MultiPlayerButton.Location = new System.Drawing.Point(12, 259);
+            this.MultiPlayerButton.Name = "MultiPlayerButton";
+            this.MultiPlayerButton.Size = new System.Drawing.Size(112, 23);
+            this.MultiPlayerButton.TabIndex = 12;
+            this.MultiPlayerButton.Text = "Multiplayer";
+            this.MultiPlayerButton.UseVisualStyleBackColor = true;
+            this.MultiPlayerButton.Click += new System.EventHandler(this.MultiPlayerButton_Click);
+            // 
             // MainMenuPage
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(794, 651);
+            this.Controls.Add(this.MultiPlayerButton);
             this.Controls.Add(this.ScoreLabel);
             this.Controls.Add(this.HighscoreLable);
             this.Controls.Add(this.helpbutton);
@@ -145,7 +157,7 @@ namespace BoardGame.src.design
             this.Name = "MainMenuPage";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "MainMenu";
-            this.TopMost = true;
+            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.MainMenuPage_FormClosing);
             this.Load += new System.EventHandler(this.MainMenuPage_Load);
             this.ResumeLayout(false);
             this.PerformLayout();
@@ -162,5 +174,6 @@ namespace BoardGame.src.design
         private System.Windows.Forms.Button helpbutton;
         public System.Windows.Forms.Label HighscoreLable;
         public System.Windows.Forms.Label ScoreLabel;
+        private System.Windows.Forms.Button MultiPlayerButton;
     }
 }

@@ -97,7 +97,7 @@ namespace BoardGame {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("False")]
+        [global::System.Configuration.DefaultSettingValueAttribute("True")]
         public bool round {
             get {
                 return ((bool)(this["round"]));
@@ -109,7 +109,7 @@ namespace BoardGame {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("")]
+        [global::System.Configuration.DefaultSettingValueAttribute("20")]
         public string texbox1 {
             get {
                 return ((string)(this["texbox1"]));
@@ -121,7 +121,7 @@ namespace BoardGame {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("")]
+        [global::System.Configuration.DefaultSettingValueAttribute("20")]
         public string textbox2 {
             get {
                 return ((string)(this["textbox2"]));
@@ -133,7 +133,7 @@ namespace BoardGame {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("False")]
+        [global::System.Configuration.DefaultSettingValueAttribute("True")]
         public bool red {
             get {
                 return ((bool)(this["red"]));
@@ -157,7 +157,7 @@ namespace BoardGame {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("False")]
+        [global::System.Configuration.DefaultSettingValueAttribute("True")]
         public bool blue {
             get {
                 return ((bool)(this["blue"]));
