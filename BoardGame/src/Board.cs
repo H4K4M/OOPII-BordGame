@@ -68,7 +68,7 @@ namespace BoardGame.src.design
 
         public void OccupyThreeRandomLocation()
         {
-            int n = 0;
+            int n = 0; // Empty space count
             for (int i = 0; i < RowSize; i++)
             {
                 for (int j = 0; j < ColumnSize; j++)
@@ -79,6 +79,7 @@ namespace BoardGame.src.design
                     }
                 }
             }
+            // Check the empty spaces in the board
             if (n > 3)
             {
                 OccupyRandomLocation();
@@ -95,7 +96,7 @@ namespace BoardGame.src.design
                 OccupyRandomLocation();
             }
             
-            Score += getScoreCheckbord(); //Check score if new random canmake score
+            Score += getScoreCheckbord(); //Check score if new random can make score
         }
         public void OccupyRandomLocation()
         {
@@ -196,7 +197,7 @@ namespace BoardGame.src.design
                     if (Grid[i, j - 1].Text == Grid[i, j].Text && Grid[i, j - 1].ForeColor == Grid[i, j].ForeColor && Grid[i, j].Occupied)
                     {
                         countHorz++;
-                        if (countHorz >= 4)
+                        if (countHorz >= 4) // If there is more than 4 same button horizontally update your score
                         {
                             for (int k = j; k > j - 5; k--)
                             {
@@ -214,7 +215,7 @@ namespace BoardGame.src.design
                     if (j < RowSize && Grid[j - 1, i].Text == Grid[j, i].Text && Grid[j - 1, i].ForeColor == Grid[j, i].ForeColor && Grid[j, i].Occupied)
                     {
                         countVert++;
-                        if (countVert >= 4)
+                        if (countVert >= 4) // If there is more than 4 same button vertically update your score
                         {
                             for (int k = j; k > j - 5; k--)
                             {
@@ -235,7 +236,7 @@ namespace BoardGame.src.design
         
         private void gameover()
         {
-            int n = 0;
+            int n = 0; // Number of occupied buttons.
             for (int i = 0; i < RowSize; i++)
             {
                 for (int j = 0; j < ColumnSize; j++)
@@ -244,10 +245,10 @@ namespace BoardGame.src.design
                     { n++; }
                 }
             }
-            if (n == RowSize * ColumnSize)
+            if (n == RowSize * ColumnSize) // All the buttons are occupied
             {
                 string message = "Game Over\n" + "Total Score: " + Score.ToString();
-                if(Score > UserDatabase.getuserInfoByUsername(thisUserName).UserHighScore)
+                if(Score > UserDatabase.getuserInfoByUsername(thisUserName).UserHighScore) // If the score is your new best score update your best score
                 {
                     message += Environment.NewLine + "!Your got new High Score!";
                     mainGame.HighscoreLable.Text = "Your High Score : "+ Score;
@@ -260,7 +261,7 @@ namespace BoardGame.src.design
                 
                 MessageBoxButtons buttons = MessageBoxButtons.OK;
                 DialogResult result = MessageBox.Show(message, " ", buttons);
-                if (result == DialogResult.OK)
+                if (result == DialogResult.OK) // Restart the game
                 { 
                     mainGame.BoardPanel.Controls.Clear();
                     mainGame.DetermineBoardSize();
@@ -304,7 +305,7 @@ namespace BoardGame.src.design
         }
         private bool shortpath(int srcX, int srcY, int destX, int destY, ref List<Index> list)
         {
-            char[,] grid = new char[RowSize, ColumnSize];
+            char[,] grid = new char[RowSize, ColumnSize]; // Create a new grid to find shortest without changing anything in the game
             for (int i = 0; i < RowSize; i++)
             {
                 for (int j = 0; j < ColumnSize; j++)
@@ -313,7 +314,7 @@ namespace BoardGame.src.design
                     {
                         grid[i, j] = '1';
                     }
-                    if (Grid[i, j].Occupied) //Occupide
+                    if (Grid[i, j].Occupied) //Occupied
                     {
                         grid[i, j] = '0';
                     }
@@ -322,7 +323,7 @@ namespace BoardGame.src.design
                 }
             }
             Index src = new Index(0, 0);
-            bool[,] visited = new bool[RowSize, ColumnSize];
+            bool[,] visited = new bool[RowSize, ColumnSize]; // Check the occupied buttons in our new grid 
             for (int i = 0; i < RowSize; i++)
             {
                 for (int j = 0; j < ColumnSize; j++)
@@ -340,7 +341,7 @@ namespace BoardGame.src.design
                 }
             }
             List<Index> indexes = new List<Index>();
-            indexes.Add(src);
+            indexes.Add(src); // Add starting position to list
             visited[src.row, src.col] = true;
             while (indexes.Any())
             {
@@ -435,7 +436,7 @@ namespace BoardGame.src.design
                     Move(list); //make move
                     int tmp = Score;
                     Score += getScoreCheckbord(); //get score 
-                    if(tmp == Score) //if no score random new 3 shape and color
+                    if (tmp == Score) //if no score random new 3 shape and color
                     {
                         OccupyThreeRandomLocation();
                     }

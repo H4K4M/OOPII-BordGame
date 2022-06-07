@@ -26,7 +26,7 @@ namespace BoardGame.src
             { "admin", new User("admin", HashPassword.HashString("admin"), UserType.ADMIN)},
             { "user", new User("user", HashPassword.HashString("user"), UserType.USER)}
         };
-        public static UserDatabase GetInstance()
+        public static UserDatabase GetInstance() // Singleton pattern to prevent multiple objects of this class.
         {
             if (INSTANCE == null)
             {
@@ -39,9 +39,9 @@ namespace BoardGame.src
         {
             ReadUserDatabase();
         }
-        public bool IsUserExistsWithUsernameAndPassword(String username, String password)
+        public bool IsUserExistsWithUsernameAndPassword(String username, String password) // Checks if given username parameter matches with any username in database.
         {
-            if (InMemoryUserDatabase.ContainsKey(username))
+            if (InMemoryUserDatabase.ContainsKey(username)) 
             {
                 user = InMemoryUserDatabase[username];
 

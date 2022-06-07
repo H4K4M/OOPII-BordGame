@@ -127,7 +127,7 @@ namespace BoardGame.src.design
         }
         public void OccupyThreeRandomLocation()
         {
-            int n = 0;
+            int n = 0; // Empty space count
             for (int i = 0; i < 9; i++)
             {
                 for (int j = 0; j < 9; j++)
@@ -138,6 +138,7 @@ namespace BoardGame.src.design
                     }
                 }
             }
+            // Check the empty spaces in the board
             if (n > 3)
             {               
                 int number = 0;               
@@ -147,9 +148,9 @@ namespace BoardGame.src.design
                 {
                     int[] Random = new int[3];
                     Random = OccupyRandomLocation();
-                    SendRandLocation[k] = (byte)Random[0];
-                    SendRandLocation[k + 1] = (byte)Random[1];
-                    SendRandLocation[k + 2] = (byte)Random[2];
+                    SendRandLocation[k] = (byte)Random[0]; // Row Location
+                    SendRandLocation[k + 1] = (byte)Random[1]; // Column Location
+                    SendRandLocation[k + 2] = (byte)Random[2]; // Color Number
                     number++;
                 }
                 sock.Send(SendRandLocation);               
@@ -163,9 +164,9 @@ namespace BoardGame.src.design
                 {
                     int[] Random = new int[3];
                     Random = OccupyRandomLocation();
-                    SendRandLocation[k] = (byte)Random[0];
-                    SendRandLocation[k + 1] = (byte)Random[1];
-                    SendRandLocation[k + 2] = (byte)Random[2];
+                    SendRandLocation[k] = (byte)Random[0]; // Row Location
+                    SendRandLocation[k + 1] = (byte)Random[1]; // Column Location
+                    SendRandLocation[k + 2] = (byte)Random[2]; // Color Number
                     number++;
                 }
                 sock.Send(SendRandLocation);
@@ -179,9 +180,9 @@ namespace BoardGame.src.design
                 {
                     int[] Random = new int[3];
                     Random = OccupyRandomLocation();
-                    SendRandLocation[k] = (byte)Random[0];
-                    SendRandLocation[k + 1] = (byte)Random[1];
-                    SendRandLocation[k + 2] = (byte)Random[2];
+                    SendRandLocation[k] = (byte)Random[0]; // Row Location
+                    SendRandLocation[k + 1] = (byte)Random[1]; // Column Location
+                    SendRandLocation[k + 2] = (byte)Random[2]; // Color Number
                     number++;
                 }
                 sock.Send(SendRandLocation);
@@ -225,7 +226,7 @@ namespace BoardGame.src.design
             }            
         }
         private int OpponentScore;
-        private void ReceiveScore() //Receive Opponet's score
+        private void ReceiveScore() //Receive Opponent's score
         {
             byte[] buffer = new byte[1];
             sock.Receive(buffer);
@@ -254,7 +255,7 @@ namespace BoardGame.src.design
         }
         private void ReceiveMove() //Receive opponent's move
         {
-            byte[] buffer = new byte[5];
+            byte[] buffer = new byte[5]; // 0 = Source Row Number, 1 = Source Column Number, 2 = Destination Row Number, 3 = Destination Column Number, 4 = Color Number
             sock.Receive(buffer);
 
             if ((int)buffer[4] == 1) colormove = Color.Red;
@@ -291,7 +292,7 @@ namespace BoardGame.src.design
         }
         private bool shortpath(int srcX, int srcY, int destX, int destY, ref List<Index> list)
         {
-            char[,] grid = new char[9, 9];
+            char[,] grid = new char[9, 9]; // Create a new grid to find shortest without changing anything in the game
             for (int i = 0; i < 9; i++)
             {
                 for (int j = 0; j < 9; j++)
@@ -300,7 +301,7 @@ namespace BoardGame.src.design
                     {
                         grid[i, j] = '1';
                     }
-                    if (Grid[i, j].Occupied) //Occupide
+                    if (Grid[i, j].Occupied) //Occupied
                     {
                         grid[i, j] = '0';
                     }
@@ -309,7 +310,7 @@ namespace BoardGame.src.design
                 }
             }
             Index src = new Index(0, 0);
-            bool[,] visited = new bool[9, 9];
+            bool[,] visited = new bool[9, 9]; // Check the occupied buttons in our new grid 
             for (int i = 0; i < 9; i++)
             {
                 for (int j = 0; j < 9; j++)
@@ -327,7 +328,7 @@ namespace BoardGame.src.design
                 }
             }
             List<Index> indexes = new List<Index>();
-            indexes.Add(src);
+            indexes.Add(src); // Add starting position to list
             visited[src.row, src.col] = true;
             while (indexes.Any())
             {
@@ -422,6 +423,7 @@ namespace BoardGame.src.design
                 if (shortpath(currrow, currcol, nextrow, nextcol, ref list)) // check short path
                 {
                     getMove(list); //make move
+                    // 0 = Source Row Number, 1 = Source Column Number, 2 = Destination Row Number, 3 = Destination Column Number, 4 = Color Number
                     byte[] SendMove = { (byte)currrow, (byte)currcol, (byte)nextrow, (byte)nextcol, (byte)NumColor };
                     sock.Send(SendMove);
 
@@ -453,7 +455,7 @@ namespace BoardGame.src.design
         }//end-Button_Click
         private bool gameover()
         {
-            int n = 0;
+            int n = 0; // Number of occupied buttons.
             for (int i = 0; i < 9; i++)
             {
                 for (int j = 0; j < 9; j++)
@@ -462,11 +464,11 @@ namespace BoardGame.src.design
                         n++; 
                 }//end-for
             }//end-for
-            if (n == 9 * 9)
+            if (n == 9 * 9) // All the buttons are occupied
             {
                 string message = "Game Over\n";
-                if (YourScore > OpponentScore) message = "You are win !\n";
-                else if (YourScore < OpponentScore) message = "You are lose !\n";
+                if (YourScore > OpponentScore) message = "You win !\n";
+                else if (YourScore < OpponentScore) message = "You lose !\n";
                 else message = "Draw !";
 
                 MessageBoxButtons buttons = MessageBoxButtons.OK;
@@ -491,7 +493,7 @@ namespace BoardGame.src.design
                     if (Grid[i, j - 1].Text == Grid[i, j].Text && Grid[i, j - 1].ForeColor == Grid[i, j].ForeColor && Grid[i, j].Occupied)
                     {
                         countHorz++;
-                        if (countHorz >= 4)
+                        if (countHorz >= 4) // If there is more than 4 same button horizontally update your score
                         {
                             for (int k = j; k > j - 5; k--)
                             {
@@ -509,7 +511,7 @@ namespace BoardGame.src.design
                     if (j < 9 && Grid[j - 1, i].Text == Grid[j, i].Text && Grid[j - 1, i].ForeColor == Grid[j, i].ForeColor && Grid[j, i].Occupied)
                     {
                         countVert++;
-                        if (countVert >= 4)
+                        if (countVert >= 4) // If there is more than 4 same button vertically update your score
                         {
                             for (int k = j; k > j - 5; k--)
                             {

@@ -14,11 +14,12 @@ namespace BoardGame
 {
     public partial class SettingPage : Form
     {
-
+        // Max-min game board size
         private static int MAX_BOARD_WIDTH = 20;
         private static int MAX_BOARD_HEIGHT = 20;
         private static int MIN_BOARD_WIDTH = 6;
         private static int MIN_BOARD_HEIGHT = 6;
+
         private static int MIN_SELECTED_CHECKBOX_COUNT = 1;
         private MainMenuPage game;
         public SettingPage(MainMenuPage mainMenu)

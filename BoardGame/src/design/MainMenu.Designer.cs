@@ -43,7 +43,7 @@ namespace BoardGame.src.design
             // 
             // settingbutton
             // 
-            this.settingbutton.Location = new System.Drawing.Point(12, 70);
+            this.settingbutton.Location = new System.Drawing.Point(12, 99);
             this.settingbutton.Name = "settingbutton";
             this.settingbutton.Size = new System.Drawing.Size(102, 23);
             this.settingbutton.TabIndex = 1;
@@ -53,7 +53,7 @@ namespace BoardGame.src.design
             // 
             // quitbutton
             // 
-            this.quitbutton.Location = new System.Drawing.Point(12, 128);
+            this.quitbutton.Location = new System.Drawing.Point(12, 157);
             this.quitbutton.Name = "quitbutton";
             this.quitbutton.Size = new System.Drawing.Size(102, 23);
             this.quitbutton.TabIndex = 4;
@@ -63,7 +63,7 @@ namespace BoardGame.src.design
             // 
             // Profilebut
             // 
-            this.Profilebut.Location = new System.Drawing.Point(12, 41);
+            this.Profilebut.Location = new System.Drawing.Point(12, 70);
             this.Profilebut.Name = "Profilebut";
             this.Profilebut.Size = new System.Drawing.Size(75, 23);
             this.Profilebut.TabIndex = 5;
@@ -83,7 +83,7 @@ namespace BoardGame.src.design
             // 
             // AboutButton
             // 
-            this.AboutButton.Location = new System.Drawing.Point(12, 99);
+            this.AboutButton.Location = new System.Drawing.Point(12, 128);
             this.AboutButton.Name = "AboutButton";
             this.AboutButton.Size = new System.Drawing.Size(102, 23);
             this.AboutButton.TabIndex = 7;
@@ -101,7 +101,7 @@ namespace BoardGame.src.design
             // 
             // helpbutton
             // 
-            this.helpbutton.Location = new System.Drawing.Point(12, 157);
+            this.helpbutton.Location = new System.Drawing.Point(12, 186);
             this.helpbutton.Name = "helpbutton";
             this.helpbutton.Size = new System.Drawing.Size(75, 23);
             this.helpbutton.TabIndex = 9;
@@ -112,7 +112,7 @@ namespace BoardGame.src.design
             // HighscoreLable
             // 
             this.HighscoreLable.AutoSize = true;
-            this.HighscoreLable.Location = new System.Drawing.Point(19, 195);
+            this.HighscoreLable.Location = new System.Drawing.Point(19, 224);
             this.HighscoreLable.Name = "HighscoreLable";
             this.HighscoreLable.Size = new System.Drawing.Size(95, 15);
             this.HighscoreLable.TabIndex = 10;
@@ -121,7 +121,7 @@ namespace BoardGame.src.design
             // ScoreLabel
             // 
             this.ScoreLabel.AutoSize = true;
-            this.ScoreLabel.Location = new System.Drawing.Point(19, 223);
+            this.ScoreLabel.Location = new System.Drawing.Point(19, 252);
             this.ScoreLabel.Name = "ScoreLabel";
             this.ScoreLabel.Size = new System.Drawing.Size(88, 15);
             this.ScoreLabel.TabIndex = 11;
@@ -129,7 +129,7 @@ namespace BoardGame.src.design
             // 
             // MultiPlayerButton
             // 
-            this.MultiPlayerButton.Location = new System.Drawing.Point(12, 259);
+            this.MultiPlayerButton.Location = new System.Drawing.Point(12, 41);
             this.MultiPlayerButton.Name = "MultiPlayerButton";
             this.MultiPlayerButton.Size = new System.Drawing.Size(112, 23);
             this.MultiPlayerButton.TabIndex = 12;

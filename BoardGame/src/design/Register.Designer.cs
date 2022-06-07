@@ -226,6 +226,7 @@ namespace BoardGame.src.design
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.BackColor = System.Drawing.Color.SkyBlue;
             this.ClientSize = new System.Drawing.Size(384, 381);
             this.Controls.Add(this.RegisterWarningLabel);
             this.Controls.Add(this.UsernameWarningLabel);

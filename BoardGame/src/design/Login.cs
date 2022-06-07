@@ -25,19 +25,19 @@ namespace BoardGame
 
         private void loginButton_Click(object sender, EventArgs e)
         {
-            String usernameText = usernameTextBox.Text;
-            String passwordText = passwordTextBox.Text;
+            String usernameText = usernameTextBox.Text; // Get username from form
+            String passwordText = passwordTextBox.Text; // Get password from form
 
             try
             {
-                UserDatabase.IsUserExistsWithUsernameAndPassword(usernameText, HashPassword.HashString(passwordText));
+                UserDatabase.IsUserExistsWithUsernameAndPassword(usernameText, HashPassword.HashString(passwordText)); // Check if there is a user with received username and password
                 Settings1.Default.username = usernameTextBox.Text;
                 Settings1.Default.Save();
                 MainMenuPage mainMenuPage = new MainMenuPage(usernameText);
                 this.Hide();
                 mainMenuPage.Show();
             }
-            catch (ArgumentException Exception)
+            catch (ArgumentException Exception) // If there is no match give a warning
             {
                 usernamePasswordWarningLabel.Text = Exception.Message;
                 usernamePasswordWarningLabel.Visible = true;
@@ -64,7 +64,7 @@ namespace BoardGame
 
         private void LoginPage_Load(object sender, EventArgs e)
         {
-            usernameTextBox.Text = Settings1.Default.username;
+            usernameTextBox.Text = Settings1.Default.username; // Load the last used username
         }
 
         private void ShowPass_CheckedChanged(object sender, EventArgs e)
