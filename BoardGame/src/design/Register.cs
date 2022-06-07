@@ -25,6 +25,7 @@ namespace BoardGame.src.design
         {
             User user = new User();
 
+            // Get the user information from textboxes
             user.UserName = UsernameTxtBox.Text;
             user.PassWord = HashPassword.HashString(PasswordTxtBox.Text);
             user.NameSurname = NameSurnameTxTBox.Text;
@@ -37,7 +38,7 @@ namespace BoardGame.src.design
 
             try
             {
-                if (UserDatabase.RegisterUserIfUserNameNotExists(user))
+                if (UserDatabase.RegisterUserIfUserNameNotExists(user)) // Register the user if there is not a already registered user with same username.
                 {
                     this.Close();
                     //LoginPage loginPage = new LoginPage();
