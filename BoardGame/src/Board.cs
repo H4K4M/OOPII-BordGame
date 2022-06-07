@@ -207,7 +207,7 @@ namespace BoardGame.src.design
                             }
                             SoundPlayer Sound = new SoundPlayer("../../../SoundEffect/getScore.wav");
                             Sound.Play();
-                            score += getscore() * (countHorz + 1);
+                            score += getscore();
                         }
                     }
                     else { countHorz = 0; }
@@ -225,7 +225,7 @@ namespace BoardGame.src.design
                             }
                             SoundPlayer Sound = new SoundPlayer("../../../SoundEffect/getScore.wav");
                             Sound.Play();
-                            score += getscore() * (countVert + 1);
+                            score += getscore();
                         }
                     }
                     else { countVert = 0; }
