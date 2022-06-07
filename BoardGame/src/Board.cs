@@ -436,7 +436,10 @@ namespace BoardGame.src.design
                     Move(list); //make move
                     int tmp = Score;
                     Score += getScoreCheckbord(); //get score 
-                    OccupyThreeRandomLocation();
+                    if (tmp == Score) //if no score random new 3 shape and color
+                    {
+                        OccupyThreeRandomLocation();
+                    }
                     mainGame.ScoreLabel.Text = "Score : " + Score.ToString();
                     gameover();
                 }
